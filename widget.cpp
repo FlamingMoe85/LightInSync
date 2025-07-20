@@ -83,7 +83,7 @@ Widget::Widget(QWidget *parent)
         beeEye[device]->Init(1+(device*51));
         for(int k=0; k< AMT_OuterRgbDevs; k++)
         {
-            colorWheelOuterDevs[k].SetRgbDevice(beeEye[device]->GetRgbDevice(k));
+            colorWheelOuterDevs[k].SetRgbDevice(beeEye[device]->GetRgbDevice(k+1));
             colorWheelOuterDevs[k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
             bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[k]));
         }
