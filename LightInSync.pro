@@ -35,6 +35,8 @@ SOURCES += \
     ../Experiment/Audio/AudioPlayer.cpp \
     ../Experiment/Audio/AudioPlayerFrontend.cpp \
     ../Experiment/ClientServer_Top.cpp \
+    ../Experiment/ControlInputs/Position.cpp \
+    ../Experiment/ControlInputs/Span.cpp \
     ../Experiment/UI/CustomScrollArea.cpp \
     ../Experiment/UI/EditorItem.cpp \
     ../Experiment/UI/EffectEditor.cpp \
@@ -96,6 +98,9 @@ HEADERS += \
     ../Experiment/Audio/AudioPlayer.h \
     ../Experiment/Audio/AudioPlayerFrontend.h \
     ../Experiment/ClientServer_Top.h \
+    ../Experiment/ControlInputs/I_Ping.hpp \
+    ../Experiment/ControlInputs/Position.h \
+    ../Experiment/ControlInputs/Span.h \
     ../Experiment/UI/CustomScrollArea.h \
     ../Experiment/UI/EditorItem.h \
     ../Experiment/UI/EffectEditor.h \
@@ -106,10 +111,12 @@ HEADERS += \
 
 FORMS += \
     ../Experiment/Audio/AudioPlayerFrontend.ui \
+    ../Experiment/ControlInputs/Span.ui \
     ../Experiment/UI/CustomScrollArea.ui \
     ../Experiment/UI/EditorItem.ui \
     ../Experiment/UI/EffectEditor.ui \
     ../Experiment/UI/HorSliderSelfCentering.ui \
+    ../Experiment/ControlInputs/Position.ui \
     widget.ui
 
 # Default rules for deployment.
