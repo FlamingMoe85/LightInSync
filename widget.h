@@ -30,17 +30,10 @@
 
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 
-#define AMT_SECTIONS    2
-#define AMT_DEVS_PER_SECTION    6
-#define CHNLS_PER_CAN 8
-#define UNIV_LENGTH 1 + (AMT_SECTIONS*AMT_DEVS_PER_SECTION*CHNLS_PER_CAN)
+#define AMT_BEE_EYES    1
+#define UNIV_LENGTH 1+ (AMT_BEE_EYES*51)
 
-#define AMT_DEVICES 4
-#define AMT_SPEAKER_HEADS 2
-//#define UNIV_LENGTH 1 + (AMT_DEVICES*10)
-
-//#define UNIV_LENGTH 1 + (AMT_SECTIONS*AMT_DEVS_PER_SECTION*CHNLS_PER_CAN) + (AMT_DEVICES*10) + (AMT_SPEAKER_HEADS*10)
-#define UNIV_LENGTH 52
+#define AMT_OuterRgbDevs    6
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -59,7 +52,10 @@ private:
 
     QSerialPort serial;
 
-    //BundleSeriesManager
+    BundleSeries bsBeeEyeDevices[AMT_BEE_EYES];
+    MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
+    BundleSeries bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES];
+    ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
 
 
     QTimer timer;
@@ -67,9 +63,7 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    Position *pos[51];
-    MovingHead_RGBW_7x40_BeeEye_51Ch head;
-
+    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift;
 
 private slots:
     void Slot_SendMsg();

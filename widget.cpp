@@ -60,8 +60,7 @@ QStringList channelNames = {
 
 Widget::Widget(QWidget *parent)
     :   QWidget(parent),
-        ui(new Ui::Widget),
-        head(universum)
+        ui(new Ui::Widget)
 {
     ui->setupUi(this);
 
@@ -73,70 +72,45 @@ Widget::Widget(QWidget *parent)
         buf[i] = 0;
     }
 
-    head.Init(1);
-
-    pos[0]=new Position(this, head.GetMapperPan(), channelNames[0]);
-     pos[1]=new Position(this, head.GetMapperPanFine(), channelNames[1]);
-     pos[2]=new Position(this, head.GetMapperTilt(), channelNames[2]);
-     pos[3]=new Position(this, head.GetMapper(), channelNames[3]);
-     pos[4]=new Position(this, head.GetMapperPanTiltSpeed(), channelNames[4]);
-     pos[5]=new Position(this, head.GetMapperZoom(), channelNames[5]);
-     pos[6]=new Position(this, head.GetMapperRotate(), channelNames[6]);
-     pos[7]=new Position(this, head.GetMapperDimmer(), channelNames[7]);
-     pos[8]=new Position(this, head.GetMapperStrobe(), channelNames[8]);
-     pos[9]=new Position(this, head.GetMapperRedDimm(), channelNames[9]);
-     pos[10]=new Position(this, head.GetMapperGreenDimm(), channelNames[10]);
-     pos[11]=new Position(this, head.GetMapperBlueDimm(), channelNames[11]);
-     pos[12]=new Position(this, head.GetMapperWhiteDimm(), channelNames[12]);
-     pos[13]=new Position(this, head.GetMapperCT(), channelNames[13]);
-     pos[14]=new Position(this, head.GetMapperWash(), channelNames[14]);
-     pos[15]=new Position(this, head.GetMapperStaticEff(), channelNames[15]);
-     pos[16]=new Position(this, head.GetMapperDynEff(), channelNames[16]);
-     pos[17]=new Position(this, head.GetMapperDynEffSpeed(), channelNames[17]);
-     pos[18]=new Position(this, head.GetMapperBkGrndRed(), channelNames[18]);
-     pos[19]=new Position(this, head.GetMapperBkGrndGreen(), channelNames[19]);
-     pos[20]=new Position(this, head.GetMapperBkGrndBlue(), channelNames[20]);
-     pos[21]=new Position(this, head.GetMapperBkGrndWhite(), channelNames[21]);
-     pos[22]=new Position(this, head.GetMapperReset(), channelNames[22]);
-     pos[23]=new Position(this, head.GetMapperRed_1(), channelNames[23]);
-     pos[24]=new Position(this, head.GetMapperGreen_1(), channelNames[24]);
-     pos[25]=new Position(this, head.GetMapperBlue_1(), channelNames[25]);
-     pos[26]=new Position(this, head.GetMapperWhite_1(), channelNames[26]);
-     pos[27]=new Position(this, head.GetMapperRed_2(), channelNames[27]);
-     pos[28]=new Position(this, head.GetMapperGreen_2(), channelNames[28]);
-     pos[29]=new Position(this, head.GetMapperBlue_2(), channelNames[29]);
-     pos[30]=new Position(this, head.GetMapperWhite_2(), channelNames[30]);
-     pos[31]=new Position(this, head.GetMapperRed_3(), channelNames[31]);
-     pos[32]=new Position(this, head.GetMapperGreen_3(), channelNames[32]);
-     pos[33]=new Position(this, head.GetMapperBlue_3(), channelNames[33]);
-     pos[34]=new Position(this, head.GetMapperWhite_3(), channelNames[34]);
-     pos[35]=new Position(this, head.GetMapperRed_4(), channelNames[35]);
-     pos[36]=new Position(this, head.GetMapperGreen_4(), channelNames[36]);
-     pos[37]=new Position(this, head.GetMapperBlue_4(), channelNames[37]);
-     pos[38]=new Position(this, head.GetMapperWhite_4(), channelNames[38]);
-     pos[39]=new Position(this, head.GetMapperRed_5(), channelNames[39]);
-     pos[40]=new Position(this, head.GetMapperGreen_5(), channelNames[40]);
-     pos[41]=new Position(this, head.GetMapperBlue_5(), channelNames[41]);
-     pos[42]=new Position(this, head.GetMapperWhite_5(), channelNames[42]);
-     pos[43]=new Position(this, head.GetMapperRed_6(), channelNames[43]);
-     pos[44]=new Position(this, head.GetMapperGreen_6(), channelNames[44]);
-     pos[45]=new Position(this, head.GetMapperBlue_6(), channelNames[45]);
-     pos[46]=new Position(this, head.GetMapperWhite_6(), channelNames[46]);
-     pos[47]=new Position(this, head.GetMapperRed_7(), channelNames[47]);
-     pos[48]=new Position(this, head.GetMapperGreen_7(), channelNames[48]);
-     pos[49]=new Position(this, head.GetMapperBlue_7(), channelNames[49]);
-     pos[50]=new Position(this, head.GetMapperWhite_7(), channelNames[50]);
-
-    int abs = 0;
-    for(int c=0; c<4; c++)
+    for(int device=0; device<AMT_BEE_EYES; device++)
     {
-        for(int r=0; r<13; r++)
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesOuter6RGBdevs[device]));
+        bsBeeEyeDevices[device].SetType(NEW_BS);
+        bsBeeEyeDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesOuter6RGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesOuter6RGBdevs[device].SetType(NEW_BS);
+        beeEye[device] = new MovingHead_RGBW_7x40_BeeEye_51Ch(universum);
+        beeEye[device]->Init(1+(device*51));
+        for(int k=0; k< AMT_OuterRgbDevs; k++)
         {
-            ui->gridLayout->addWidget(pos[abs], r, c);
-            abs++;
-            if(abs == 51)break;
+            colorWheelOuterDevs[k].SetRgbDevice(beeEye[device]->GetRgbDevice(k));
+            colorWheelOuterDevs[k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+            bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[k]));
         }
     }
+
+
+    pos = new Position(this, &(bsBeeEyeDevices[0]), "Pos");
+    ui->gridLayout->addWidget(pos, 0, 0);
+
+    pan = new Position(this, beeEye[0]->GetMapperPan(), "Pan");
+    ui->gridLayout->addWidget(pan, 1, 0);
+
+    tilt = new Position(this, beeEye[0]->GetMapperTilt(), "Tilt");
+    ui->gridLayout->addWidget(tilt, 2, 0);
+
+    dimm = new Position(this, beeEye[0]->GetMapperDimmer(), "Dimm");
+    ui->gridLayout->addWidget(dimm, 3, 0);
+
+    zoom = new Position(this, beeEye[0]->GetMapperZoom(), "Zoom");
+    ui->gridLayout->addWidget(zoom, 4, 0);
+
+    rotate = new Position(this, beeEye[0]->GetMapperRotate(), "Rotate");
+    ui->gridLayout->addWidget(rotate, 5, 0);
+
+    shift = new Position(this, nullptr, "RGB Device Shift");
+    bsBeeEyesOuter6RGBdevs[0].SetSerParamShift(shift->GetServer());
+    ui->gridLayout->addWidget(shift, 6, 0);
 
     serial.setPortName("COM5");
     serial.setBaudRate(QSerialPort::Baud115200);
@@ -173,7 +147,19 @@ void Widget::Slot_TimerExpired()
 {
     itteration++;
 
-    for(int i=0; i<51; i++)pos[i]->Ping(itteration);
+
+    for(int device=0; device<AMT_BEE_EYES; device++)
+    {
+        bsBeeEyeDevices[device].Request(itteration);
+    }
+
+    pan->Ping(itteration);
+    tilt->Ping(itteration);
+    dimm->Ping(itteration);
+    zoom->Ping(itteration);
+    rotate->Ping(itteration);
+    shift->Ping(itteration);
+
 
     static QString sendMsg, debugMsg;
     debugMsg.clear();
