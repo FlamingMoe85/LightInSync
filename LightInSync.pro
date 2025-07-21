@@ -80,6 +80,7 @@ HEADERS += \
     ../../share/Devices/Interfaces/I_White.hpp \
     ../../share/EffectStructureBlocks/BundleSeries.h \
     ../../share/EffectStructureBlocks/BundleSeriesManager.h \
+    ../../share/EffectStructureBlocks/I_AlternateServer.hpp \
     ../../share/EffectStructureBlocks/Positioner.h \
     ../../share/FunctionOwners.hpp \
     ../../share/Functions/FunctionContainer.h \

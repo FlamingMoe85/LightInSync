@@ -52,9 +52,16 @@ private:
 
     QSerialPort serial;
 
-    BundleSeries bsBeeEyeDevices[AMT_BEE_EYES];
+    BundleSeries bsBeeEyeDevices;
     MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
-    BundleSeries bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES];
+    BundleSeries    bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES],
+                    bsBeeEyesRgbShift[AMT_BEE_EYES],
+                    bsBeeEyesOuter6RGBdevsShift,
+                    bsBeeEyesDimm,
+                    bsBeeEyesPan,
+                    bsBeeEyesTilt,
+                    bsBeeEyesZoom,
+                    bsBeeEyesRotate;
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
 
 

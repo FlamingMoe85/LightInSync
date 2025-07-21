@@ -72,11 +72,15 @@ Widget::Widget(QWidget *parent)
         buf[i] = 0;
     }
 
+
+
+
+
+
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
-        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesOuter6RGBdevs[device]));
-        bsBeeEyeDevices[device].SetType(NEW_BS);
-        bsBeeEyeDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+        bsBeeEyeDevices.RegisterClient(&(bsBeeEyesOuter6RGBdevs[device]));
         bsBeeEyesOuter6RGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesOuter6RGBdevs[device].SetType(NEW_BS);
         beeEye[device] = new MovingHead_RGBW_7x40_BeeEye_51Ch(universum);
@@ -87,30 +91,46 @@ Widget::Widget(QWidget *parent)
             colorWheelOuterDevs[k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
             bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[k]));
         }
+        bsBeeEyesDimm.RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesPan.RegisterClient(beeEye[device]->GetMapperPan()); bsBeeEyesPan.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesTilt.RegisterClient(beeEye[device]->GetMapperTilt()); bsBeeEyesTilt.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesZoom.RegisterClient(beeEye[device]->GetMapperZoom()); bsBeeEyesZoom.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesRotate.RegisterClient(beeEye[device]->GetMapperRotate()); bsBeeEyesRotate.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesOuter6RGBdevs[device].SetSerParamShift(&bsBeeEyesOuter6RGBdevsShift);
     }
 
-
-    pos = new Position(this, &(bsBeeEyeDevices[0]), "Pos");
+    pos = new Position(this, &bsBeeEyeDevices, "Pos", true);
+    bsBeeEyeDevices.SetAlternateServer(pos);
+    bsBeeEyeDevices.SetType(NEW_BS);
+    bsBeeEyeDevices.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     ui->gridLayout->addWidget(pos, 0, 0);
 
-    pan = new Position(this, beeEye[0]->GetMapperPan(), "Pan");
+    pan = new Position(this, &bsBeeEyesPan, "Pan", true);
+    bsBeeEyesPan.SetAlternateServer(pan);
     ui->gridLayout->addWidget(pan, 1, 0);
 
-    tilt = new Position(this, beeEye[0]->GetMapperTilt(), "Tilt");
+    tilt = new Position(this, &bsBeeEyesTilt, "Tilt", true);
+    bsBeeEyesTilt.SetAlternateServer(tilt);
     ui->gridLayout->addWidget(tilt, 2, 0);
 
-    dimm = new Position(this, beeEye[0]->GetMapperDimmer(), "Dimm");
+    dimm = new Position(this, &bsBeeEyesDimm, "Dimm", true);
+    bsBeeEyesDimm.SetAlternateServer(dimm);
     ui->gridLayout->addWidget(dimm, 3, 0);
 
-    zoom = new Position(this, beeEye[0]->GetMapperZoom(), "Zoom");
+    zoom = new Position(this, &bsBeeEyesZoom, "Zoom", true);
+    bsBeeEyesZoom.SetAlternateServer(zoom);
     ui->gridLayout->addWidget(zoom, 4, 0);
 
-    rotate = new Position(this, beeEye[0]->GetMapperRotate(), "Rotate");
+    rotate = new Position(this, &bsBeeEyesRotate, "Rotate", true);
+    bsBeeEyesRotate.SetAlternateServer(rotate);
     ui->gridLayout->addWidget(rotate, 5, 0);
 
-    shift = new Position(this, nullptr, "RGB Device Shift");
-    bsBeeEyesOuter6RGBdevs[0].SetSerParamShift(shift->GetServer());
+    shift = new Position(this, &bsBeeEyesOuter6RGBdevsShift, "RGB Device Shift", true);
+    bsBeeEyesOuter6RGBdevsShift.SetAlternateServer(shift);
     ui->gridLayout->addWidget(shift, 6, 0);
+    bsBeeEyesOuter6RGBdevsShift.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+
 
     serial.setPortName("COM5");
     serial.setBaudRate(QSerialPort::Baud115200);
@@ -150,7 +170,13 @@ void Widget::Slot_TimerExpired()
 
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
-        bsBeeEyeDevices[device].Request(itteration);
+        bsBeeEyeDevices.Request(itteration);
+        bsBeeEyesOuter6RGBdevsShift.Request(itteration);
+        bsBeeEyesDimm.Request(itteration);
+        bsBeeEyesPan.Request(itteration);
+        bsBeeEyesTilt.Request(itteration);
+        bsBeeEyesZoom.Request(itteration);
+        bsBeeEyesRotate.Request(itteration);
     }
 
     pan->Ping(itteration);
