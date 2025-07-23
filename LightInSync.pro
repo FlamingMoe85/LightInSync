@@ -81,6 +81,7 @@ HEADERS += \
     ../../share/EffectStructureBlocks/BundleSeries.h \
     ../../share/EffectStructureBlocks/BundleSeriesManager.h \
     ../../share/EffectStructureBlocks/I_AlternateServer.hpp \
+    ../../share/EffectStructureBlocks/I_BundleSeries_UI.hpp \
     ../../share/EffectStructureBlocks/Positioner.h \
     ../../share/FunctionOwners.hpp \
     ../../share/Functions/FunctionContainer.h \
