@@ -72,34 +72,46 @@ Widget::Widget(QWidget *parent)
         buf[i] = 0;
     }
 
+PositionInit_t posInit;
 
+cT.RegisterCLient(&masterBs);
+posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = false;
+masterControls = new Position(this, posInit);
+masterBs.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+masterBs.SetUi(masterControls);
+masterBs.SetType(NEW_BS);
+ui->verticalLayout_MasterControl->addWidget(masterControls);
 
-
-
-
-pos = new Position(this, "Pos", false);
+posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+pos = new Position(this, posInit);
 ui->verticalLayout->addWidget(pos);
 
-pan = new Position(this, "Pan", true);
+posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+pan = new Position(this, posInit);
 bsBeeEyesPan.SetUi(pan);
 ui->verticalLayout->addWidget(pan);
 
-tilt = new Position(this, "Tilt", true);
+posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+tilt = new Position(this, posInit);
 bsBeeEyesTilt.SetUi(tilt);
 ui->verticalLayout->addWidget(tilt);
 
-dimm = new Position(this, "Dimm", true);
+posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+dimm = new Position(this, posInit);
 bsBeeEyesDimm.SetUi(dimm);
 ui->verticalLayout->addWidget(dimm);
 
-zoom = new Position(this, "Zoom", false);
+posInit.name = "Zoom"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+zoom = new Position(this, posInit);
 ui->verticalLayout->addWidget(zoom);
 
-rotate = new Position(this, "Rotate", false);
+posInit.name = "Rotate"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+rotate = new Position(this, posInit);
 ui->verticalLayout->addWidget(rotate);
 
 
-shift = new Position(this, "RGB Device Shift", false);
+posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+shift = new Position(this, posInit);
 ui->verticalLayout->addWidget(shift);
 
 cT.RegisterCLient(&(bsBeeEyesDimm));
@@ -109,7 +121,7 @@ cT.RegisterCLient(&bsBeeEyesTilt);
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
 
-        cT.RegisterCLient(&(bsBeeEyeDevices[device]));
+        masterBs.RegisterClient(&(bsBeeEyeDevices[device]));
         bsBeeEyeDevices[device].SetUi(pos);
         bsBeeEyeDevices[device].SetType(NEW_BS);
         bsBeeEyeDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
@@ -139,16 +151,20 @@ cT.RegisterCLient(&bsBeeEyesTilt);
         bsBeeEyesTilt.RegisterClient(beeEye[device]->GetMapperTilt()); bsBeeEyesTilt.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
 
-    posMovingHeads = new Position(this, "Pos", false);
+    posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posMovingHeads = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(posMovingHeads);
 
-    panMovingHeads = new Position(this, "Pan", false);
+    posInit.name = "Pan"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    panMovingHeads = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(panMovingHeads);
 
-    tiltMovingHeads = new Position(this, "Tilt", false);
+    posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    tiltMovingHeads = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
 
-    dimmMovingHeads = new Position(this, "Dimm", true);
+    posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    dimmMovingHeads = new Position(this, posInit);
     movingHeadsDimm.SetUi(dimmMovingHeads);
     ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
 
@@ -168,7 +184,7 @@ cT.RegisterCLient(&bsBeeEyesTilt);
     cT.RegisterCLient(&(movingHeadsDimm));
     for(int device=0; device<AMT_MOVING_HEADS; device++)
     {
-        cT.RegisterCLient(&(movingHeadDevices[device]));
+        masterBs.RegisterClient(&(movingHeadDevices[device]));
         movingHeadDevices[device].SetUi(posMovingHeads);
         movingHeadDevices[device].SetType(NEW_BS);
         movingHeadDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
@@ -194,13 +210,16 @@ cT.RegisterCLient(&bsBeeEyesTilt);
     }
 
 
-    posCans = new Position(this, "Pos", false);
+    posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posCans = new Position(this, posInit);
     ui->verticalLayout_Cans->addWidget(posCans);
 
-        dimmRgbCans = new Position(this, "DimmRgb", true);
+    posInit.name = "DimmRgb"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+        dimmRgbCans = new Position(this, posInit);
         ui->verticalLayout_Cans->addWidget(dimmRgbCans);
 
-        dimmWhiteCans = new Position(this, "Dimm White", true);
+        posInit.name = "Dimm White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+        dimmWhiteCans = new Position(this, posInit);
         ui->verticalLayout_Cans->addWidget(dimmWhiteCans);
 
     Device_t canInit;
@@ -216,7 +235,7 @@ cT.RegisterCLient(&bsBeeEyesTilt);
             canInit.adr = 1+(AMT_BEE_EYES*51) + (AMT_MOVING_HEADS*10);
             cans[device]->Init(canInit);
 
-            cT.RegisterCLient(&(canDevices[device]));
+            masterBs.RegisterClient(&(canDevices[device]));
             canDevices[device].SetUi(posCans);
             canDevices[device].SetType(NEW_BS);
             canDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);

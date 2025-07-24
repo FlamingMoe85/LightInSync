@@ -55,6 +55,8 @@ private:
     QSerialPort serial;
 
     ClientServer_Top cT;
+    BundleSeries masterBs;
+    Position *masterControls;
 
     MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
     BundleSeries    bsBeeEyeDevices[AMT_BEE_EYES],
