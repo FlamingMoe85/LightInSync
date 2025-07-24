@@ -13,8 +13,6 @@
 #include "../../../share/EffectStructureBlocks/BundleSeriesManager.h"
 #include "../../../share/Mapper/ColorWheelMapper.h"
 #include "../../../share/Mapper/OneChannelMapper.h"
-#include "../../../share/Devices/DmxDevices/RGBWA_UV_MiniMovingHead.hpp"
-#include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
 #include "../../../share/FunctionOwners.hpp"
 
 #include "../../../share/Devices/DmxDevices/Device.hpp"
@@ -28,10 +26,14 @@
 
 #include "../Experiment/ControlInputs/Position.h"
 
+#include "../../../share/Devices/DmxDevices/Device.hpp"
+#include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 
-#define AMT_BEE_EYES    1
-#define UNIV_LENGTH 1+ (AMT_BEE_EYES*51)
+#define AMT_BEE_EYES        1
+#define AMT_MOVING_HEADS    1
+#define AMT_CANS            1
+#define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8)
 
 #define AMT_OuterRgbDevs    6
 
@@ -54,18 +56,36 @@ private:
 
     ClientServer_Top cT;
 
-    BundleSeries bsBeeEyeDevices[AMT_BEE_EYES];
     MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
-    BundleSeries    bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES],
+    BundleSeries    bsBeeEyeDevices[AMT_BEE_EYES],
+                    bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES],
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
-                    bsBeeEyesRgbShift[AMT_BEE_EYES],
-                    bsBeeEyesOuter6RGBdevsShift,
                     bsBeeEyesDimm,
                     bsBeeEyesPan,
                     bsBeeEyesTilt,
                     bsBeeEyesZoom[AMT_BEE_EYES],
                     bsBeeEyesRotate[AMT_BEE_EYES];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
+    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift;
+
+    MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
+    BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],
+                    movingHeadsRGBdevs[AMT_MOVING_HEADS],
+                    movingHeadsWhite[AMT_MOVING_HEADS],
+                    movingHeadsDimm,
+                    movingHeadsPan[AMT_MOVING_HEADS],
+                    movingHeadsTilt[AMT_MOVING_HEADS];
+    ColorWheelMapper colorWheelMovingHeads[AMT_MOVING_HEADS];
+    Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads;
+
+    Device *cans[AMT_CANS];
+    BundleSeries    canDevices[AMT_CANS],
+                    canRGBdevs[AMT_CANS],
+                    canWhite[AMT_CANS],
+                    canRgbDimm[AMT_CANS],
+                    canWhiteDimm[AMT_CANS];
+    ColorWheelMapper colorWheelCan[AMT_CANS];
+    Position *posCans, *dimmWhiteCans, *dimmRgbCans;
 
 
     QTimer timer;
@@ -73,7 +93,6 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift;
 
 private slots:
     void Slot_SendMsg();

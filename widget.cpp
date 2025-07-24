@@ -78,29 +78,29 @@ Widget::Widget(QWidget *parent)
 
 
 pos = new Position(this, "Pos", false);
-ui->verticalLayout->addWidget(pos, 0, 0);
+ui->verticalLayout->addWidget(pos);
 
 pan = new Position(this, "Pan", true);
 bsBeeEyesPan.SetUi(pan);
-ui->verticalLayout->addWidget(pan, 1, 0);
+ui->verticalLayout->addWidget(pan);
 
 tilt = new Position(this, "Tilt", true);
 bsBeeEyesTilt.SetUi(tilt);
-ui->verticalLayout->addWidget(tilt, 2, 0);
+ui->verticalLayout->addWidget(tilt);
 
 dimm = new Position(this, "Dimm", true);
 bsBeeEyesDimm.SetUi(dimm);
-ui->verticalLayout->addWidget(dimm, 3, 0);
+ui->verticalLayout->addWidget(dimm);
 
 zoom = new Position(this, "Zoom", false);
-ui->verticalLayout->addWidget(zoom, 4, 0);
+ui->verticalLayout->addWidget(zoom);
 
 rotate = new Position(this, "Rotate", false);
-ui->verticalLayout->addWidget(rotate, 5, 0);
+ui->verticalLayout->addWidget(rotate);
 
 
 shift = new Position(this, "RGB Device Shift", false);
-ui->verticalLayout->addWidget(shift, 6, 0);
+ui->verticalLayout->addWidget(shift);
 
 cT.RegisterCLient(&(bsBeeEyesDimm));
 cT.RegisterCLient(&bsBeeEyesPan);
@@ -130,14 +130,113 @@ cT.RegisterCLient(&bsBeeEyesTilt);
 
         for(int k=0; k< AMT_OuterRgbDevs; k++)
         {
-            colorWheelOuterDevs[k].SetRgbDevice(beeEye[device]->GetRgbDevice(k+1));
-            colorWheelOuterDevs[k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-            bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[k]));
+            colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k].SetRgbDevice(beeEye[device]->GetRgbDevice(k+1));
+            colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+            bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k]));
         }
         bsBeeEyesDimm.RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesPan.RegisterClient(beeEye[device]->GetMapperPan()); bsBeeEyesPan.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesTilt.RegisterClient(beeEye[device]->GetMapperTilt()); bsBeeEyesTilt.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
+
+    posMovingHeads = new Position(this, "Pos", false);
+    ui->verticalLayout_MovingHeads->addWidget(posMovingHeads);
+
+    panMovingHeads = new Position(this, "Pan", false);
+    ui->verticalLayout_MovingHeads->addWidget(panMovingHeads);
+
+    tiltMovingHeads = new Position(this, "Tilt", false);
+    ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+
+    dimmMovingHeads = new Position(this, "Dimm", true);
+    movingHeadsDimm.SetUi(dimmMovingHeads);
+    ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
+
+    MovingHead_RGBWA_UV_t RGBW_Dimm_MovingHead_Init;
+
+        RGBW_Dimm_MovingHead_Init.red = 3;
+        RGBW_Dimm_MovingHead_Init.green = 4;
+        RGBW_Dimm_MovingHead_Init.blue = 5;
+        RGBW_Dimm_MovingHead_Init.white = 6;
+        RGBW_Dimm_MovingHead_Init.dimm = 2;
+        RGBW_Dimm_MovingHead_Init.amber = 7;
+        RGBW_Dimm_MovingHead_Init.uv = 8;
+        RGBW_Dimm_MovingHead_Init.x = 0;
+        RGBW_Dimm_MovingHead_Init.y = 1;
+        RGBW_Dimm_MovingHead_Init.xy = 9;
+
+    cT.RegisterCLient(&(movingHeadsDimm));
+    for(int device=0; device<AMT_MOVING_HEADS; device++)
+    {
+        cT.RegisterCLient(&(movingHeadDevices[device]));
+        movingHeadDevices[device].SetUi(posMovingHeads);
+        movingHeadDevices[device].SetType(NEW_BS);
+        movingHeadDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+        movingHeadDevices[device].RegisterClient(&(movingHeadsRGBdevs[device]));
+        movingHeadDevices[device].RegisterClient(&(movingHeadsPan[device]));
+        movingHeadDevices[device].RegisterClient(&(movingHeadsTilt[device]));
+
+        movingHeads[device] = new MovingHead_RGBWA_UV(universum);
+        RGBW_Dimm_MovingHead_Init.adr = 1+(AMT_BEE_EYES*51);
+        movingHeads[device]->Init(RGBW_Dimm_MovingHead_Init);
+        movingHeadsPan[device].RegisterClient(movingHeads[device]->GetPanMapper()); movingHeadsPan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        movingHeadsPan[device].SetUi(panMovingHeads);
+        movingHeadsTilt[device].RegisterClient(movingHeads[device]->GetTiltMapper()); movingHeadsTilt[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        movingHeadsTilt[device].SetUi(tiltMovingHeads);
+
+        colorWheelMovingHeads[device].SetRgbDevice((I_RGB*)movingHeads[device]);
+        colorWheelMovingHeads[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        movingHeadsRGBdevs[device].RegisterClient(&(colorWheelMovingHeads[device]));
+        movingHeadsRGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+        movingHeadsDimm.RegisterClient(movingHeads[device]->GetDimmMapper()); movingHeadsDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+    }
+
+
+    posCans = new Position(this, "Pos", false);
+    ui->verticalLayout_Cans->addWidget(posCans);
+
+        dimmRgbCans = new Position(this, "DimmRgb", true);
+        ui->verticalLayout_Cans->addWidget(dimmRgbCans);
+
+        dimmWhiteCans = new Position(this, "Dimm White", true);
+        ui->verticalLayout_Cans->addWidget(dimmWhiteCans);
+
+    Device_t canInit;
+    canInit.red = 0;
+    canInit.green = 2;
+    canInit.blue = 4;
+    canInit.white = 6;
+
+
+        for(int device=0; device<AMT_CANS; device++)
+        {
+            cans[device] = new Device(universum);
+            canInit.adr = 1+(AMT_BEE_EYES*51) + (AMT_MOVING_HEADS*10);
+            cans[device]->Init(canInit);
+
+            cT.RegisterCLient(&(canDevices[device]));
+            canDevices[device].SetUi(posCans);
+            canDevices[device].SetType(NEW_BS);
+            canDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+            canDevices[device].RegisterClient(&(canRGBdevs[device]));
+            canRGBdevs[device].RegisterClient(&(colorWheelCan[device]));
+            colorWheelCan[device].SetRgbDevice((I_RGB*)cans[device]);
+            canRGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+            colorWheelCan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+            canDevices[device].RegisterClient(&(canRgbDimm[device]));
+            canRgbDimm[device].RegisterClient(cans[device]->GetRgbDimmMapper());
+            canRgbDimm[device].SetUi(dimmRgbCans);
+            canRgbDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+            canWhiteDimm[device].SetUi(dimmWhiteCans);
+            canWhiteDimm[device].RegisterClient(cans[device]->GetWhiteDimmMapper());
+            canDevices[device].RegisterClient(&(canWhiteDimm[device]));
+            canWhiteDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        }
 
     serial.setPortName("COM5");
     serial.setBaudRate(QSerialPort::Baud115200);
@@ -179,13 +278,20 @@ void Widget::Slot_TimerExpired()
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
         bsBeeEyeDevices[device].Request(itteration);
+    }
+    bsBeeEyesDimm.Consume(itteration, f);
+    bsBeeEyesPan.Consume(itteration, f);
+    bsBeeEyesTilt.Consume(itteration, f);
 
-        bsBeeEyesDimm.Consume(itteration, f);
-        bsBeeEyesPan.Consume(itteration, f);
-        bsBeeEyesTilt.Consume(itteration, f);
-        /*bsBeeEyesZoom.Request(itteration);
-        bsBeeEyesRotate.Request(itteration);
-        */
+    for(int device=0; device<AMT_MOVING_HEADS; device++)
+    {
+        movingHeadDevices[device].Request(itteration);
+    }
+    movingHeadsDimm.Consume(itteration, f);
+
+    for(int device=0; device<AMT_CANS; device++)
+    {
+        canDevices[device].Request(itteration);
     }
 
     /*
