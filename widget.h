@@ -61,15 +61,18 @@ private:
     MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
     BundleSeries    bsBeeEyeDevices[AMT_BEE_EYES],
                     bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES],
-                     bsBeeEyesOuter6RGBdevsDimm[AMT_BEE_EYES],
+                    bsBeeEyesOuter6RGBdevsDimm[AMT_BEE_EYES],
+                    bsBeeEyesInnerRgbDevDimm[AMT_BEE_EYES],
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
+                    bsBeeEyesInnerWhite[AMT_BEE_EYES],
                     bsBeeEyesDimm,
                     bsBeeEyesPan,
                     bsBeeEyesTilt,
                     bsBeeEyesZoom[AMT_BEE_EYES],
                     bsBeeEyesRotate[AMT_BEE_EYES];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
-    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift, *rgbDimm;
+    ColorWheelMapper colorWheelInnerDev[AMT_BEE_EYES];
+    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift, *rgbDimm, *shiftWhite, *rgbInnDimm, *innerWhite;
 
     MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
     BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],

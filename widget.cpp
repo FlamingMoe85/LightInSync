@@ -75,14 +75,14 @@ Widget::Widget(QWidget *parent)
 PositionInit_t posInit;
 
 cT.RegisterCLient(&masterBs);
-posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = false;
+posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
 masterControls = new Position(this, posInit);
 masterBs.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
 masterBs.SetUi(masterControls);
 masterBs.SetType(NEW_BS);
 ui->verticalLayout_MasterControl->addWidget(masterControls);
 
-posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = true;
 pos = new Position(this, posInit);
 ui->verticalLayout->addWidget(pos);
 
@@ -114,9 +114,23 @@ posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked
 shift = new Position(this, posInit);
 ui->verticalLayout->addWidget(shift);
 
-posInit.name = "RGB Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
+posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
 rgbDimm = new Position(this, posInit);
 ui->verticalLayout->addWidget(rgbDimm);
+
+posInit.name = "RGB Dimm Inner"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
+rgbInnDimm = new Position(this, posInit);
+ui->verticalLayout->addWidget(rgbInnDimm);
+
+
+posInit.name = "White Ring Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+shiftWhite = new Position(this, posInit);
+ui->verticalLayout->addWidget(shiftWhite);
+
+posInit.name = "Inner White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+innerWhite = new Position(this, posInit);
+ui->verticalLayout->addWidget(innerWhite);
+
 
 cT.RegisterCLient(&(bsBeeEyesDimm));
 cT.RegisterCLient(&bsBeeEyesPan);
@@ -125,6 +139,9 @@ cT.RegisterCLient(&bsBeeEyesTilt);
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
 
+        beeEye[device] = new MovingHead_RGBW_7x40_BeeEye_51Ch(universum);
+        beeEye[device]->Init(1+ (AMT_CANS*8) +(AMT_MOVING_HEADS*10)+(device*51));
+
         masterBs.RegisterClient(&(bsBeeEyeDevices[device]));
         bsBeeEyeDevices[device].SetUi(pos);
         bsBeeEyeDevices[device].SetType(NEW_BS);
@@ -132,8 +149,24 @@ cT.RegisterCLient(&bsBeeEyesTilt);
 
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesOuter6RGBdevs[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesOuter6RGBdevsDimm[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesOuter6White[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesZoom[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesRotate[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(colorWheelInnerDev[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerRgbDevDimm[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerWhite[device]));
+
+        bsBeeEyesInnerWhite[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesInnerWhite[device].RegisterClient(beeEye[device]->GetMapperWhite_1());
+        bsBeeEyesInnerWhite[device].SetUi(innerWhite);
+
+        colorWheelInnerDev[device].SetRgbDevice(beeEye[device]->GetRgbDevice(0));
+        colorWheelInnerDev[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesInnerRgbDevDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesInnerRgbDevDimm[device].RegisterClient(colorWheelInnerDev[device].GetDimm());
+        bsBeeEyesInnerRgbDevDimm[device].SetType(NEW_BS);
+        bsBeeEyesInnerRgbDevDimm[device].SetUi(rgbInnDimm);
+
         bsBeeEyesOuter6RGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesOuter6RGBdevs[device].SetType(NEW_BS);
         bsBeeEyesOuter6RGBdevs[device].SetUi(shift);
@@ -141,12 +174,20 @@ cT.RegisterCLient(&bsBeeEyesTilt);
         bsBeeEyesOuter6RGBdevsDimm[device].SetType(NEW_BS);
         bsBeeEyesOuter6RGBdevsDimm[device].SetUi(rgbDimm);
 
-        beeEye[device] = new MovingHead_RGBW_7x40_BeeEye_51Ch(universum);
-        beeEye[device]->Init(1+ (AMT_CANS*8) +(AMT_MOVING_HEADS*10)+(device*51));
         bsBeeEyesZoom[device].RegisterClient(beeEye[device]->GetMapperZoom()); bsBeeEyesZoom[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesZoom[device].SetUi(zoom);
         bsBeeEyesRotate[device].RegisterClient(beeEye[device]->GetMapperRotate()); bsBeeEyesRotate[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesRotate[device].SetUi(rotate);
+
+        bsBeeEyesOuter6White[device].SetUi(shiftWhite);
+        bsBeeEyesOuter6White[device].SetType(NEW_BS);
+        bsBeeEyesOuter6White[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_2());
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_3());
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_4());
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_5());
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_6());
+        bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_7());
 
         for(int k=0; k< AMT_OuterRgbDevs; k++)
         {
@@ -154,6 +195,7 @@ cT.RegisterCLient(&bsBeeEyesTilt);
             colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
             bsBeeEyesOuter6RGBdevs[device].RegisterClient(&(colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k]));
             bsBeeEyesOuter6RGBdevsDimm[device].RegisterClient((colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k]).GetDimm());
+
         }
         bsBeeEyesDimm.RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesPan.RegisterClient(beeEye[device]->GetMapperPan());
