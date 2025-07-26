@@ -31,8 +31,8 @@
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 
 #define AMT_BEE_EYES        1
-#define AMT_MOVING_HEADS    1
-#define AMT_CANS            1
+#define AMT_MOVING_HEADS    4
+#define AMT_CANS            12
 #define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8)
 
 #define AMT_OuterRgbDevs    6
@@ -61,6 +61,7 @@ private:
     MovingHead_RGBW_7x40_BeeEye_51Ch *beeEye[AMT_BEE_EYES];
     BundleSeries    bsBeeEyeDevices[AMT_BEE_EYES],
                     bsBeeEyesOuter6RGBdevs[AMT_BEE_EYES],
+                     bsBeeEyesOuter6RGBdevsDimm[AMT_BEE_EYES],
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
                     bsBeeEyesDimm,
                     bsBeeEyesPan,
@@ -68,7 +69,7 @@ private:
                     bsBeeEyesZoom[AMT_BEE_EYES],
                     bsBeeEyesRotate[AMT_BEE_EYES];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
-    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift;
+    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift, *rgbDimm;
 
     MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
     BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],
