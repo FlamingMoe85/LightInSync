@@ -22,16 +22,16 @@
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout_Master">
      <property name="leftMargin">
-      <number>9</number>
+      <number>0</number>
      </property>
      <property name="topMargin">
-      <number>9</number>
+      <number>0</number>
      </property>
      <property name="rightMargin">
-      <number>9</number>
+      <number>0</number>
      </property>
      <property name="bottomMargin">
-      <number>9</number>
+      <number>0</number>
      </property>
      <item>
       <widget class="QWidget" name="widget_ControlPanel" native="true">
@@ -42,6 +42,18 @@
         </sizepolicy>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item row="0" column="0">
          <layout class="QGridLayout" name="gridLayout_2">
           <item row="0" column="0">
@@ -53,8 +65,26 @@
              </sizepolicy>
             </property>
             <layout class="QGridLayout" name="gridLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item row="3" column="0">
               <widget class="QSlider" name="horizontalSlider_PositonSpeed">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>1</horstretch>
+                 <verstretch>1</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
@@ -68,6 +98,12 @@
              </item>
              <item row="0" column="0">
               <widget class="QCheckBox" name="checkBox">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>1</horstretch>
+                 <verstretch>1</verstretch>
+                </sizepolicy>
+               </property>
                <property name="text">
                 <string>CheckBox</string>
                </property>
@@ -76,7 +112,7 @@
              <item row="1" column="0">
               <widget class="QSlider" name="horizontalSlider_MasterPosition">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                  <horstretch>1</horstretch>
                  <verstretch>1</verstretch>
                 </sizepolicy>
@@ -152,10 +188,22 @@
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>1</horstretch>
-         <verstretch>5</verstretch>
+         <verstretch>9</verstretch>
         </sizepolicy>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>

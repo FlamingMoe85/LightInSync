@@ -25,6 +25,7 @@
 #include "../Experiment/Audio/AudioPlayerFrontend.h"
 
 #include "../Experiment/ControlInputs/Position.h"
+#include "../Experiment/ControlInputs/SaveLoadScene.h"
 
 #include "../../../share/Devices/DmxDevices/Device.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
@@ -98,6 +99,8 @@ private:
     std::vector<uint8_t*> universum;
     uint8_t buf[UNIV_LENGTH];
     int itteration;
+
+    SaveLoadScene saveLoadBeeEyes, saveLoadHeads;
 
 
 private slots:

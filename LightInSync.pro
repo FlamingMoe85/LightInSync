@@ -36,6 +36,7 @@ SOURCES += \
     ../Experiment/Audio/AudioPlayerFrontend.cpp \
     ../Experiment/ClientServer_Top.cpp \
     ../Experiment/ControlInputs/Position.cpp \
+    ../Experiment/ControlInputs/SaveLoadScene.cpp \
     ../Experiment/ControlInputs/Span.cpp \
     ../Experiment/UI/CustomScrollArea.cpp \
     ../Experiment/UI/EditorItem.cpp \
@@ -102,6 +103,7 @@ HEADERS += \
     ../Experiment/ClientServer_Top.h \
     ../Experiment/ControlInputs/I_Ping.hpp \
     ../Experiment/ControlInputs/Position.h \
+    ../Experiment/ControlInputs/SaveLoadScene.h \
     ../Experiment/ControlInputs/Span.h \
     ../Experiment/UI/CustomScrollArea.h \
     ../Experiment/UI/EditorItem.h \
@@ -113,6 +115,7 @@ HEADERS += \
 
 FORMS += \
     ../Experiment/Audio/AudioPlayerFrontend.ui \
+    ../Experiment/ControlInputs/SaveLoadScene.ui \
     ../Experiment/ControlInputs/Span.ui \
     ../Experiment/UI/CustomScrollArea.ui \
     ../Experiment/UI/EditorItem.ui \

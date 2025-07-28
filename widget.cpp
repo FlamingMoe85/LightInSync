@@ -74,6 +74,9 @@ Widget::Widget(QWidget *parent)
 
 PositionInit_t posInit;
 
+saveLoadBeeEyes.name = "_BeeEyes";
+ui->verticalLayout->addWidget(&saveLoadBeeEyes);
+
 cT.RegisterCLient(&masterBs);
 posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
 masterControls = new Position(this, posInit);
@@ -82,54 +85,66 @@ masterBs.SetUi(masterControls);
 masterBs.SetType(NEW_BS);
 ui->verticalLayout_MasterControl->addWidget(masterControls);
 
+Position* tmpPos;
 posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = true;
-pos = new Position(this, posInit);
+pos = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(pos);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-pan = new Position(this, posInit);
+pan = tmpPos = new Position(this, posInit);
 bsBeeEyesPan.SetUi(pan);
 ui->verticalLayout->addWidget(pan);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-tilt = new Position(this, posInit);
+tilt = tmpPos = new Position(this, posInit);
 bsBeeEyesTilt.SetUi(tilt);
 ui->verticalLayout->addWidget(tilt);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-dimm = new Position(this, posInit);
+dimm = tmpPos = new Position(this, posInit);
 bsBeeEyesDimm.SetUi(dimm);
 ui->verticalLayout->addWidget(dimm);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Zoom"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-zoom = new Position(this, posInit);
+zoom = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(zoom);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Rotate"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-rotate = new Position(this, posInit);
+rotate = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(rotate);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-shift = new Position(this, posInit);
+shift = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(shift);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
-rgbDimm = new Position(this, posInit);
+rgbDimm = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(rgbDimm);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "RGB Dimm Inner"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
-rgbInnDimm = new Position(this, posInit);
+rgbInnDimm = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(rgbInnDimm);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 posInit.name = "White Ring Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-shiftWhite = new Position(this, posInit);
+shiftWhite = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(shiftWhite);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Inner White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-innerWhite = new Position(this, posInit);
+innerWhite = tmpPos = new Position(this, posInit);
 ui->verticalLayout->addWidget(innerWhite);
+saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 cT.RegisterCLient(&(bsBeeEyesDimm));
@@ -205,22 +220,29 @@ cT.RegisterCLient(&bsBeeEyesTilt);
         bsBeeEyesTilt.RegisterClient(beeEye[device]->GetMapperTilt()); bsBeeEyesTilt.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
 
+    saveLoadHeads.name = "_Heads";
+    ui->verticalLayout_MovingHeads->addWidget(&saveLoadHeads);
+
     posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-    posMovingHeads = new Position(this, posInit);
+    posMovingHeads = tmpPos = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(posMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Pan"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-    panMovingHeads = new Position(this, posInit);
+    panMovingHeads = tmpPos = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(panMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-    tiltMovingHeads = new Position(this, posInit);
+    tiltMovingHeads = tmpPos = new Position(this, posInit);
     ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-    dimmMovingHeads = new Position(this, posInit);
+    dimmMovingHeads = tmpPos = new Position(this, posInit);
     movingHeadsDimm.SetUi(dimmMovingHeads);
     ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
 
     MovingHead_RGBWA_UV_t RGBW_Dimm_MovingHead_Init;
 
