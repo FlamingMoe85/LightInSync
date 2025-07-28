@@ -101,6 +101,7 @@ HEADERS += \
     ../Experiment/Audio/AudioPlayer.h \
     ../Experiment/Audio/AudioPlayerFrontend.h \
     ../Experiment/ClientServer_Top.h \
+    ../Experiment/ControlInputs/ChangeSliderAtRate.h \
     ../Experiment/ControlInputs/I_Ping.hpp \
     ../Experiment/ControlInputs/Position.h \
     ../Experiment/ControlInputs/SaveLoadScene.h \

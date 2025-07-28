@@ -60,7 +60,9 @@ QStringList channelNames = {
 
 Widget::Widget(QWidget *parent)
     :   QWidget(parent),
-        ui(new Ui::Widget)
+        ui(new Ui::Widget),
+        saveLoadBeeEyes(this, "_BeeEyes"),
+        saveLoadHeads(this, "_Heads")
 {
     ui->setupUi(this);
 
@@ -408,9 +410,8 @@ void Widget::Slot_TimerExpired()
         debugMsg += " " + QString::number(*v);
         *v = 0;
     }
-    qDebug() << " ";
-    qDebug() << debugMsg.toLatin1();
-    //qDebug() << sendMsg.toLatin1();
+    //qDebug() << " ";
+    //qDebug() << debugMsg.toLatin1();
     if(serial.isOpen())
     {
       serial.write(sendMsg.toLatin1());
