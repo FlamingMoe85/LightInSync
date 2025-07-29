@@ -67,8 +67,8 @@ private:
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
                     bsBeeEyesInnerWhite[AMT_BEE_EYES],
                     bsBeeEyesDimm,
-                    bsBeeEyesPan,
-                    bsBeeEyesTilt,
+                    bsBeeEyesPan[AMT_MOVING_HEADS],
+                    bsBeeEyesTilt[AMT_MOVING_HEADS],
                     bsBeeEyesZoom[AMT_BEE_EYES],
                     bsBeeEyesRotate[AMT_BEE_EYES];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];

@@ -95,13 +95,11 @@ saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 pan = tmpPos = new Position(this, posInit);
-bsBeeEyesPan.SetUi(pan);
 ui->verticalLayout->addWidget(pan);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 tilt = tmpPos = new Position(this, posInit);
-bsBeeEyesTilt.SetUi(tilt);
 ui->verticalLayout->addWidget(tilt);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
@@ -150,8 +148,6 @@ saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 cT.RegisterCLient(&(bsBeeEyesDimm));
-cT.RegisterCLient(&bsBeeEyesPan);
-cT.RegisterCLient(&bsBeeEyesTilt);
 
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
@@ -172,10 +168,22 @@ cT.RegisterCLient(&bsBeeEyesTilt);
         bsBeeEyeDevices[device].RegisterClient(&(colorWheelInnerDev[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerRgbDevDimm[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerWhite[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesPan[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesTilt[device]));
 
         bsBeeEyesInnerWhite[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesInnerWhite[device].RegisterClient(beeEye[device]->GetMapperWhite_1());
         bsBeeEyesInnerWhite[device].SetUi(innerWhite);
+
+        bsBeeEyesPan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesPan[device].RegisterClient(beeEye[device]->GetMapperPan());
+        bsBeeEyesPan[device].SetUi(pan);
+        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->ClearSections();
+        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0, 1);
+
+        bsBeeEyesTilt[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesTilt[device].RegisterClient(beeEye[device]->GetMapperTilt());
+        bsBeeEyesTilt[device].SetUi(tilt);
 
         colorWheelInnerDev[device].SetRgbDevice(beeEye[device]->GetRgbDevice(0));
         colorWheelInnerDev[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
@@ -215,11 +223,6 @@ cT.RegisterCLient(&bsBeeEyesTilt);
 
         }
         bsBeeEyesDimm.RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-        bsBeeEyesPan.RegisterClient(beeEye[device]->GetMapperPan());
-        bsBeeEyesPan.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->ClearSections();
-        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0, 1);
-        bsBeeEyesTilt.RegisterClient(beeEye[device]->GetMapperTilt()); bsBeeEyesTilt.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
 
     saveLoadHeads.name = "_Heads";
@@ -377,8 +380,6 @@ void Widget::Slot_TimerExpired()
         bsBeeEyeDevices[device].Request(itteration);
     }
     bsBeeEyesDimm.Consume(itteration, f);
-    bsBeeEyesPan.Consume(itteration, f);
-    bsBeeEyesTilt.Consume(itteration, f);
 
     for(int device=0; device<AMT_MOVING_HEADS; device++)
     {
@@ -421,17 +422,24 @@ void Widget::Slot_TimerExpired()
 
 void Widget::Slot_GetMasterPosition(ClientServer_Top *b, int itterration)
 {
+    static float position = 0;
+    if(position >= 1.0)position = 0.0;
+    position += ((1.0/5000.0) * ((float)ui->horizontalSlider_PositonSpeed->value()));
+    /*
     if(ui->checkBox->isChecked())
     {
         int v = ui->horizontalSlider_MasterPosition->value();
         v -= v%(ui->horizontalSlider_PositonSpeed->value());
         v += (ui->horizontalSlider_PositonSpeed->value());
+        qDebug() << v;
         if(v > ui->horizontalSlider_MasterPosition->maximum())
         {
             v=0;
         }
         ui->horizontalSlider_MasterPosition->setSliderPosition(v);
     }
+    */
+
     float tmpF = (float)ui->horizontalSlider_MasterPosition->value() / (float)ui->horizontalSlider_MasterPosition->maximum();
-    b->Serve(itterration,tmpF);
+    b->Serve(itterration,position);
 }
