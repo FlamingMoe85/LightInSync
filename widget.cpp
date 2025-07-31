@@ -62,6 +62,7 @@ Widget::Widget(QWidget *parent)
     :   QWidget(parent),
         ui(new Ui::Widget),
         saveLoadBeeEyes(this, "_BeeEyes"),
+        saveLoadBeeEyes_Side(this,"_SideBeeEyes"),
         saveLoadHeads(this, "_Heads")
 {
     ui->setupUi(this);
@@ -76,8 +77,8 @@ Widget::Widget(QWidget *parent)
 
 PositionInit_t posInit;
 
-saveLoadBeeEyes.name = "_BeeEyes";
 ui->verticalLayout->addWidget(&saveLoadBeeEyes);
+ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
 
 cT.RegisterCLient(&masterBs);
 posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
@@ -89,65 +90,126 @@ ui->verticalLayout_MasterControl->addWidget(masterControls);
 
 Position* tmpPos;
 posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = true;
-pos = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(pos);
+pos[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(pos[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-pan = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(pan);
+pan[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(pan[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-tilt = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(tilt);
+tilt[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(tilt[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-dimm = tmpPos = new Position(this, posInit);
-bsBeeEyesDimm.SetUi(dimm);
-ui->verticalLayout->addWidget(dimm);
+dimm[0] = tmpPos = new Position(this, posInit);
+bsBeeEyesDimm[0].SetUi(dimm[0]);
+ui->verticalLayout->addWidget(dimm[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Zoom"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-zoom = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(zoom);
+zoom[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(zoom[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Rotate"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-rotate = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(rotate);
+rotate[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(rotate[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-shift = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(shift);
+shift[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(shift[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
-posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
-rgbDimm = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(rgbDimm);
+posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
+rgbDimm[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(rgbDimm[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "RGB Dimm Inner"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
-rgbInnDimm = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(rgbInnDimm);
+rgbInnDimm[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(rgbInnDimm[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 
 posInit.name = "White Ring Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-shiftWhite = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(shiftWhite);
+shiftWhite[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(shiftWhite[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
 posInit.name = "Inner White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
-innerWhite = tmpPos = new Position(this, posInit);
-ui->verticalLayout->addWidget(innerWhite);
+innerWhite[0] = tmpPos = new Position(this, posInit);
+ui->verticalLayout->addWidget(innerWhite[0]);
 saveLoadBeeEyes.AddPositionUi(tmpPos);
 
+//////////////
 
-cT.RegisterCLient(&(bsBeeEyesDimm));
+saveLoadBeeEyes.slaveSaveLoadScene =  &saveLoadBeeEyes_Side;
+posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = true;
+pos[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(pos[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+pan[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(pan[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+tilt[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(tilt[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+dimm[1] = tmpPos = new Position(this, posInit);
+bsBeeEyesDimm[1].SetUi(dimm[1]);
+ui->verticalLayout_SideBeeEyes->addWidget(dimm[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Zoom"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+zoom[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(zoom[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Rotate"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+rotate[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(rotate[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+
+posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+shift[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(shift[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
+rgbDimm[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(rgbDimm[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "RGB Dimm Inner"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
+rgbInnDimm[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(rgbInnDimm[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "White Ring Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+shiftWhite[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(shiftWhite[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Inner White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+innerWhite[1] = tmpPos = new Position(this, posInit);
+ui->verticalLayout_SideBeeEyes->addWidget(innerWhite[1]);
+saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+
+cT.RegisterCLient(&(bsBeeEyesDimm[0]));
+cT.RegisterCLient(&(bsBeeEyesDimm[1]));
 
     for(int device=0; device<AMT_BEE_EYES; device++)
     {
@@ -156,7 +218,7 @@ cT.RegisterCLient(&(bsBeeEyesDimm));
         beeEye[device]->Init(1+ (AMT_CANS*8) +(AMT_MOVING_HEADS*10)+(device*51));
 
         masterBs.RegisterClient(&(bsBeeEyeDevices[device]));
-        bsBeeEyeDevices[device].SetUi(pos);
+        bsBeeEyeDevices[device].SetUi(pos[device/2]);
         bsBeeEyeDevices[device].SetType(NEW_BS);
         bsBeeEyeDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
 
@@ -173,38 +235,39 @@ cT.RegisterCLient(&(bsBeeEyesDimm));
 
         bsBeeEyesInnerWhite[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesInnerWhite[device].RegisterClient(beeEye[device]->GetMapperWhite_1());
-        bsBeeEyesInnerWhite[device].SetUi(innerWhite);
+        bsBeeEyesInnerWhite[device].SetUi(innerWhite[device/2]);
 
         bsBeeEyesPan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesPan[device].RegisterClient(beeEye[device]->GetMapperPan());
-        bsBeeEyesPan[device].SetUi(pan);
-        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->ClearSections();
-        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0, 1);
+        bsBeeEyesPan[device].SetUi(pan[device/2]);
+        beeEye[device]->GetMapperPan()->GetFuncCont()->ClearSections();
+        if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.25, 0.75);
+        else beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.75, 0.25);
 
         bsBeeEyesTilt[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesTilt[device].RegisterClient(beeEye[device]->GetMapperTilt());
-        bsBeeEyesTilt[device].SetUi(tilt);
+        bsBeeEyesTilt[device].SetUi(tilt[device/2]);
 
         colorWheelInnerDev[device].SetRgbDevice(beeEye[device]->GetRgbDevice(0));
         colorWheelInnerDev[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesInnerRgbDevDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesInnerRgbDevDimm[device].RegisterClient(colorWheelInnerDev[device].GetDimm());
         bsBeeEyesInnerRgbDevDimm[device].SetType(NEW_BS);
-        bsBeeEyesInnerRgbDevDimm[device].SetUi(rgbInnDimm);
+        bsBeeEyesInnerRgbDevDimm[device].SetUi(rgbInnDimm[device/2]);
 
         bsBeeEyesOuter6RGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesOuter6RGBdevs[device].SetType(NEW_BS);
-        bsBeeEyesOuter6RGBdevs[device].SetUi(shift);
+        bsBeeEyesOuter6RGBdevs[device].SetUi(shift[device/2]);
         bsBeeEyesOuter6RGBdevsDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesOuter6RGBdevsDimm[device].SetType(NEW_BS);
-        bsBeeEyesOuter6RGBdevsDimm[device].SetUi(rgbDimm);
+        bsBeeEyesOuter6RGBdevsDimm[device].SetUi(rgbDimm[device/2]);
 
         bsBeeEyesZoom[device].RegisterClient(beeEye[device]->GetMapperZoom()); bsBeeEyesZoom[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-        bsBeeEyesZoom[device].SetUi(zoom);
+        bsBeeEyesZoom[device].SetUi(zoom[device/2]);
         bsBeeEyesRotate[device].RegisterClient(beeEye[device]->GetMapperRotate()); bsBeeEyesRotate[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-        bsBeeEyesRotate[device].SetUi(rotate);
+        bsBeeEyesRotate[device].SetUi(rotate[device/2]);
 
-        bsBeeEyesOuter6White[device].SetUi(shiftWhite);
+        bsBeeEyesOuter6White[device].SetUi(shiftWhite[device/2]);
         bsBeeEyesOuter6White[device].SetType(NEW_BS);
         bsBeeEyesOuter6White[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesOuter6White[device].RegisterClient(beeEye[device]->GetMapperWhite_2());
@@ -222,8 +285,12 @@ cT.RegisterCLient(&(bsBeeEyesDimm));
             bsBeeEyesOuter6RGBdevsDimm[device].RegisterClient((colorWheelOuterDevs[(device*AMT_OuterRgbDevs)+k]).GetDimm());
 
         }
-        bsBeeEyesDimm.RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesDimm[device/2].RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm[device/2].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
+
+
+
+    ///////////
 
     saveLoadHeads.name = "_Heads";
     ui->verticalLayout_MovingHeads->addWidget(&saveLoadHeads);
@@ -287,10 +354,10 @@ cT.RegisterCLient(&(bsBeeEyesDimm));
         movingHeadsRGBdevs[device].RegisterClient(&(colorWheelMovingHeads[device]));
         movingHeadsRGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
 
-        movingHeadsDimm.RegisterClient(movingHeads[device]->GetDimmMapper()); movingHeadsDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.5, 0.2);
+        movingHeadsDimm.RegisterClient(movingHeads[device]->GetDimmMapper()); movingHeadsDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.5, 0.0);
     }
 
-
+/*
     posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     posCans = new Position(this, posInit);
     ui->verticalLayout_Cans->addWidget(posCans);
@@ -338,6 +405,8 @@ cT.RegisterCLient(&(bsBeeEyesDimm));
             canWhiteDimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         }
 
+        */
+
     serial.setPortName("COM5");
     serial.setBaudRate(QSerialPort::Baud115200);
     serial.setDataBits(QSerialPort::Data8);
@@ -379,7 +448,8 @@ void Widget::Slot_TimerExpired()
     {
         bsBeeEyeDevices[device].Request(itteration);
     }
-    bsBeeEyesDimm.Consume(itteration, f);
+    bsBeeEyesDimm[0].Consume(itteration, f);
+    bsBeeEyesDimm[1].Consume(itteration, f);
 
     for(int device=0; device<AMT_MOVING_HEADS; device++)
     {
@@ -387,10 +457,12 @@ void Widget::Slot_TimerExpired()
     }
     movingHeadsDimm.Consume(itteration, f);
 
+    /*
     for(int device=0; device<AMT_CANS; device++)
     {
         canDevices[device].Request(itteration);
     }
+    */
 
     /*
     pan->Ping(itteration);
@@ -400,7 +472,16 @@ void Widget::Slot_TimerExpired()
     rotate->Ping(itteration);
     shift->Ping(itteration);
     */
-
+/*
+    beeEye[0]->SetPanVal(ui->horizontalSlider->value());
+    beeEye[1]->SetPanVal(ui->horizontalSlider_2->value());
+    beeEye[2]->SetPanVal(ui->horizontalSlider_3->value());
+    beeEye[3]->SetPanVal(ui->horizontalSlider_4->value());
+    */
+    if(AMT_BEE_EYES > 0)*universum[137] += ui->horizontalSlider->value();
+    if(AMT_BEE_EYES > 1)*universum[137+51] += ui->horizontalSlider_2->value();
+    if(AMT_BEE_EYES > 2)*universum[137+102] += ui->horizontalSlider_3->value();
+    if(AMT_BEE_EYES > 3)*universum[137+153] += ui->horizontalSlider_4->value();
 
     static QString sendMsg, debugMsg;
     debugMsg.clear();
@@ -411,8 +492,8 @@ void Widget::Slot_TimerExpired()
         debugMsg += " " + QString::number(*v);
         *v = 0;
     }
-    //qDebug() << " ";
-    //qDebug() << debugMsg.toLatin1();
+    qDebug() << " ";
+    qDebug() << debugMsg.toLatin1();
     if(serial.isOpen())
     {
       serial.write(sendMsg.toLatin1());

@@ -31,7 +31,7 @@
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 
-#define AMT_BEE_EYES        1
+#define AMT_BEE_EYES        4
 #define AMT_MOVING_HEADS    4
 #define AMT_CANS            12
 #define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8)
@@ -66,14 +66,15 @@ private:
                     bsBeeEyesInnerRgbDevDimm[AMT_BEE_EYES],
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
                     bsBeeEyesInnerWhite[AMT_BEE_EYES],
-                    bsBeeEyesDimm,
+                    bsBeeEyesDimm[2],
                     bsBeeEyesPan[AMT_MOVING_HEADS],
                     bsBeeEyesTilt[AMT_MOVING_HEADS],
                     bsBeeEyesZoom[AMT_BEE_EYES],
                     bsBeeEyesRotate[AMT_BEE_EYES];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
     ColorWheelMapper colorWheelInnerDev[AMT_BEE_EYES];
-    Position *pos, *pan, *tilt, *dimm, *zoom, *rotate, *shift, *rgbDimm, *shiftWhite, *rgbInnDimm, *innerWhite;
+    Position *pos[2], *pan[2], *tilt[2], *dimm[2], *zoom[2], *rotate[2], *shift[2], *rgbDimm[2], *shiftWhite[2], *rgbInnDimm[2], *innerWhite[2];
+
 
     MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
     BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],
@@ -85,6 +86,7 @@ private:
     ColorWheelMapper colorWheelMovingHeads[AMT_MOVING_HEADS];
     Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads;
 
+    /*
     Device *cans[AMT_CANS];
     BundleSeries    canDevices[AMT_CANS],
                     canRGBdevs[AMT_CANS],
@@ -93,6 +95,7 @@ private:
                     canWhiteDimm[AMT_CANS];
     ColorWheelMapper colorWheelCan[AMT_CANS];
     Position *posCans, *dimmWhiteCans, *dimmRgbCans;
+    */
 
 
     QTimer timer;
@@ -100,7 +103,7 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    SaveLoadScene saveLoadBeeEyes, saveLoadHeads;
+    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
 
 
 private slots:
