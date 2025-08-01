@@ -486,6 +486,11 @@ void Widget::Slot_TimerExpired()
     if(AMT_BEE_EYES > 2)*universum[137+102] += ui->horizontalSlider_3->value();
     if(AMT_BEE_EYES > 3)*universum[137+153] += ui->horizontalSlider_4->value();
 
+    ui->lcdNumber->display(ui->horizontalSlider->value());
+    ui->lcdNumber_2->display(ui->horizontalSlider_2->value());
+    ui->lcdNumber_3->display(ui->horizontalSlider_3->value());
+    ui->lcdNumber_4->display(ui->horizontalSlider_4->value());
+
     static QString sendMsg, debugMsg;
     debugMsg.clear();
     sendMsg.clear();
@@ -508,7 +513,7 @@ void Widget::Slot_GetMasterPosition(ClientServer_Top *b, int itterration)
 {
     static float position = 0;
     if(position >= 1.0)position = 0.0;
-    position += ((1.0/5000.0) * ((float)ui->horizontalSlider_PositonSpeed->value()));
+    position += ((1.0/50000.0) * ((float)ui->horizontalSlider_PositonSpeed->value()));
     /*
     if(ui->checkBox->isChecked())
     {

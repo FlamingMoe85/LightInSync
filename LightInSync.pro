@@ -30,6 +30,7 @@ SOURCES += \
     ../../share/Mapper/ColorWheelMapper.cpp \
     ../../share/Mapper/HandTroughMapper.cpp \
     ../../share/Mapper/Mapper_Channel.cpp \
+    ../../share/Mapper/Mapper_Channel_16b.cpp \
     ../../share/Mapper/Mapper_InternalValue.cpp \
     ../../share/Mapper/OneChannelMapper.cpp \
     ../Experiment/Audio/AudioPlayer.cpp \
@@ -54,6 +55,7 @@ HEADERS += \
     ../../share/BrokerClientServer/I_Client.hpp \
     ../../share/BrokerClientServer/I_Server.hpp \
     ../../share/Devices/Channel/ChannelTypes.hpp \
+    ../../share/Devices/Channel/Channel_16Bit.hpp \
     ../../share/Devices/Channel/Channel_8Bit.hpp \
     ../../share/Devices/Channel/Channel_8BitValue_8BitDimm.hpp \
     ../../share/Devices/Channel/DmxChannel_8Bit.hpp \
@@ -64,6 +66,7 @@ HEADERS += \
     ../../share/Devices/DmxDevices/RGBWA_UV_MiniMovingHead.hpp \
     ../../share/Devices/DmxDevices/RGBWA_UV_Stationary.hpp \
     ../../share/Devices/DmxDevices/RGBW_Dimm.h \
+    ../../share/Devices/Interfaces/I_Channel_16Bit.hpp \
     ../../share/Devices/Interfaces/I_Channel_8Bit.hpp \
     ../../share/Devices/Interfaces/I_DmxChannelBlue_8Bit.hpp \
     ../../share/Devices/Interfaces/I_DmxChannelDimm_8Bit.hpp \
@@ -96,6 +99,7 @@ HEADERS += \
     ../../share/Mapper/HandTroughMapper.h \
     ../../share/Mapper/Mapper_Base.hpp \
     ../../share/Mapper/Mapper_Channel.h \
+    ../../share/Mapper/Mapper_Channel_16b.h \
     ../../share/Mapper/Mapper_InternalValue.h \
     ../../share/Mapper/OneChannelMapper.h \
     ../Experiment/Audio/AudioPlayer.h \
