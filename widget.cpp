@@ -344,6 +344,9 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         movingHeads[device] = new MovingHead_RGBWA_UV(universum);
         RGBW_Dimm_MovingHead_Init.adr = 1+ (AMT_CANS*8) +(device*10);
         movingHeads[device]->Init(RGBW_Dimm_MovingHead_Init);
+        movingHeads[device]->GetPanMapper()->functionContainer.ClearSections();
+        if(device & 1)movingHeads[device]->GetPanMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        else movingHeads[device]->GetPanMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 0, 1);
         movingHeadsPan[device].RegisterClient(movingHeads[device]->GetPanMapper()); movingHeadsPan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         movingHeadsPan[device].SetUi(panMovingHeads);
         movingHeadsTilt[device].RegisterClient(movingHeads[device]->GetTiltMapper()); movingHeadsTilt[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
@@ -492,8 +495,8 @@ void Widget::Slot_TimerExpired()
         debugMsg += " " + QString::number(*v);
         *v = 0;
     }
-    qDebug() << " ";
-    qDebug() << debugMsg.toLatin1();
+    //qDebug() << " ";
+    //qDebug() << debugMsg.toLatin1();
     if(serial.isOpen())
     {
       serial.write(sendMsg.toLatin1());
