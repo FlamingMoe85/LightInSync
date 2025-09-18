@@ -230,16 +230,17 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         bsBeeEyeDevices[device].RegisterClient(&(colorWheelInnerDev[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerRgbDevDimm[device]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesInnerWhite[device]));
-        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesPan[device]));
+        bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesPan[device/2]));
         bsBeeEyeDevices[device].RegisterClient(&(bsBeeEyesTilt[device]));
 
         bsBeeEyesInnerWhite[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         bsBeeEyesInnerWhite[device].RegisterClient(beeEye[device]->GetMapperWhite_1());
         bsBeeEyesInnerWhite[device].SetUi(innerWhite[device/2]);
 
-        bsBeeEyesPan[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
-        bsBeeEyesPan[device].RegisterClient(beeEye[device]->GetMapperPan());
-        bsBeeEyesPan[device].SetUi(pan[device/2]);
+        bsBeeEyesPan[device/2].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        bsBeeEyesPan[device/2].RegisterClient(beeEye[device]->GetMapperPan());
+        bsBeeEyesPan[device/2].SetUi(pan[device/2]);
+        bsBeeEyesPan[device/2].SetType(NEW_BS);
         beeEye[device]->GetMapperPan()->GetFuncCont()->ClearSections();
         if(device & 1)beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.25, 0.75);
         else beeEye[device]->GetMapperPan()->GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.75, 0.25);
