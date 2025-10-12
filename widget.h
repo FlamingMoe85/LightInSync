@@ -27,8 +27,7 @@
 #include "../Experiment/ControlInputs/Position.h"
 #include "../Experiment/ControlInputs/SaveLoadScene.h"
 
-#include "../../../share/Devices/DmxDevices/Device.hpp"
-#include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
+
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 
 #define AMT_BEE_EYES        4
@@ -66,36 +65,17 @@ private:
                     bsBeeEyesInnerRgbDevDimm[AMT_BEE_EYES],
                     bsBeeEyesOuter6White[AMT_BEE_EYES],
                     bsBeeEyesInnerWhite[AMT_BEE_EYES],
-                    bsBeeEyesDimm[2],
+                    bsBeeEyesDimm[1],
                     bsBeeEyesPan[AMT_MOVING_HEADS],
                     bsBeeEyesTilt[AMT_MOVING_HEADS],
-                    bsBeeEyesZoom[AMT_BEE_EYES],
-                    bsBeeEyesRotate[AMT_BEE_EYES];
+                    bsBeeEyesZoom[AMT_MOVING_HEADS],
+                    bsBeeEyesRotate[AMT_MOVING_HEADS];
     ColorWheelMapper colorWheelOuterDevs[AMT_BEE_EYES * AMT_OuterRgbDevs];
     ColorWheelMapper colorWheelInnerDev[AMT_BEE_EYES];
-    Position *pos[2], *pan[2], *tilt[2], *dimm[2], *zoom[2], *rotate[2], *shift[2], *rgbDimm[2], *shiftWhite[2], *rgbInnDimm[2], *innerWhite[2];
+    Position *pos[1], *pan[1], *tilt[1], *dimm[1], *zoom[1], *rotate[1], *shift[1], *rgbDimm[1], *shiftWhite[1], *rgbInnDimm[1], *innerWhite[1];
 
 
-    MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
-    BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],
-                    movingHeadsRGBdevs[AMT_MOVING_HEADS],
-                    movingHeadsWhite[AMT_MOVING_HEADS],
-                    movingHeadsDimm,
-                    movingHeadsPan[AMT_MOVING_HEADS],
-                    movingHeadsTilt[AMT_MOVING_HEADS];
-    ColorWheelMapper colorWheelMovingHeads[AMT_MOVING_HEADS];
-    Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads;
 
-    /*
-    Device *cans[AMT_CANS];
-    BundleSeries    canDevices[AMT_CANS],
-                    canRGBdevs[AMT_CANS],
-                    canWhite[AMT_CANS],
-                    canRgbDimm[AMT_CANS],
-                    canWhiteDimm[AMT_CANS];
-    ColorWheelMapper colorWheelCan[AMT_CANS];
-    Position *posCans, *dimmWhiteCans, *dimmRgbCans;
-    */
 
 
     QTimer timer;
@@ -103,7 +83,7 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
+    SaveLoadScene saveLoadBeeEyes;
 
 
 private slots:
