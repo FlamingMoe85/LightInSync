@@ -90,6 +90,7 @@ private slots:
     void Slot_SendMsg();
     void Slot_TimerExpired();
     void Slot_GetMasterPosition(ClientServer_Top *b, int itterration);
+    void Slot_ConnectCom();
 
 };
 #endif // WIDGET_H

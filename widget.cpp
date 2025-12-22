@@ -227,14 +227,9 @@ cT.RegisterCLient(&(bsBeeEyesDimm[0]));
         bsBeeEyesDimm[0].RegisterClient(beeEye[device]->GetMapperDimmer()); bsBeeEyesDimm[0].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
     }
 
-    serial.setPortName("COM5");
-    serial.setBaudRate(QSerialPort::Baud115200);
-    serial.setDataBits(QSerialPort::Data8);
-    serial.setParity(QSerialPort::NoParity);
-    serial.setStopBits(QSerialPort::OneStop);
-    serial.open(QIODevice::ReadWrite);
 
 
+    QObject::connect(ui->pushButton_ConCOM, &QPushButton::clicked, this, &Widget::Slot_ConnectCom);
     QObject::connect(&timer, &QTimer::timeout, this, &Widget::Slot_TimerExpired);
     QObject::connect(&cT, &ClientServer_Top::RequestValue, this, &Widget::Slot_GetMasterPosition);
 
@@ -246,6 +241,19 @@ cT.RegisterCLient(&(bsBeeEyesDimm[0]));
 Widget::~Widget()
 {
     delete ui;
+}
+
+void Widget::Slot_ConnectCom()
+{
+    serial.close();
+    QString com = "COM" + QString::number(ui->spinBox_ComPort->value());
+    qDebug() << "Slot_ConnectCom " << com;
+    serial.setPortName(com);
+    serial.setBaudRate(QSerialPort::Baud115200);
+    serial.setDataBits(QSerialPort::Data8);
+    serial.setParity(QSerialPort::NoParity);
+    serial.setStopBits(QSerialPort::OneStop);
+    serial.open(QIODevice::ReadWrite);
 }
 
 void Widget::Slot_SendMsg()
