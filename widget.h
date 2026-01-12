@@ -8,6 +8,8 @@
 
 #include "../Experiment/ClientServer_Top.h"
 
+#include "ScrollAreaWithVertLayout.h"
+
 
 
 #include "../../../share/EffectStructureBlocks/BundleSeriesManager.h"
@@ -105,11 +107,16 @@ private:
 
     SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
 
+    int currentPage;
+    ScrollAreaWithVertLayout page_0;
+
 
 private slots:
     void Slot_SendMsg();
     void Slot_TimerExpired();
     void Slot_GetMasterPosition(ClientServer_Top *b, int itterration);
+    void Slot_PrevPage();
+    void Slot_NextPage();
 
 };
 #endif // WIDGET_H

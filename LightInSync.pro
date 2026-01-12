@@ -45,6 +45,7 @@ SOURCES += \
     ../Experiment/UI/HorSliderSelfCentering.cpp \
     ../Experiment/UI/ShadeWidget.cpp \
     ../Experiment/UI/hoverpoints.cpp \
+    ScrollAreaWithVertLayout.cpp \
     main.cpp \
     widget.cpp
 
@@ -116,6 +117,7 @@ HEADERS += \
     ../Experiment/UI/HorSliderSelfCentering.h \
     ../Experiment/UI/ShadeWidget.h \
     ../Experiment/UI/hoverpoints.h \
+    ScrollAreaWithVertLayout.h \
     widget.h
 
 FORMS += \
@@ -127,6 +129,7 @@ FORMS += \
     ../Experiment/UI/EffectEditor.ui \
     ../Experiment/UI/HorSliderSelfCentering.ui \
     ../Experiment/ControlInputs/Position.ui \
+    ScrollAreaWithVertLayout.ui \
     widget.ui
 
 # Default rules for deployment.
