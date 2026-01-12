@@ -108,7 +108,9 @@ private:
     SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
 
     int currentPage;
-    ScrollAreaWithVertLayout page_0;
+    ScrollAreaWithVertLayout page_0, page_1, page_2;
+    QList<ScrollAreaWithVertLayout*> FixtureList;
+    void UpdatePageSelection();
 
 
 private slots:

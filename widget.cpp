@@ -77,12 +77,23 @@ Widget::Widget(QWidget *parent)
 
 PositionInit_t posInit;
 
-ui->stackedWidget->addWidget(&page_0);
+FixtureList.append(&page_0);
+FixtureList.append(&page_1);
+FixtureList.append(&page_2);
 
+ui->stackedWidget->addWidget(&page_0);
+ui->stackedWidget->addWidget(&page_1);
+ui->stackedWidget->addWidget(&page_2);
+
+page_0.name = "BeeEyes Group 1";
+page_1.name = "BeeEyes Group 2";
+page_2.name = "Moving Heads";
 
 page_0.AddToScrollArea(&saveLoadBeeEyes);
+page_1.AddToScrollArea(&saveLoadBeeEyes_Side);
+page_2.AddToScrollArea(&saveLoadHeads);
 //ui->verticalLayout->addWidget(&saveLoadBeeEyes);
-ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
+//ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
 
 cT.RegisterCLient(&masterBs);
 posInit.name = "Master"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
@@ -167,59 +178,70 @@ saveLoadBeeEyes.AddPositionUi(tmpPos);
 saveLoadBeeEyes.slaveSaveLoadScene =  &saveLoadBeeEyes_Side;
 posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = false; posInit.enableSpeed = true;
 pos[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(pos[1]);
+page_1.AddToScrollArea(pos[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(pos[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Pan"; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 pan[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(pan[1]);
+page_1.AddToScrollArea(pan[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(pan[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 tilt[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(tilt[1]);
+page_1.AddToScrollArea(tilt[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(tilt[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 dimm[1] = tmpPos = new Position(this, posInit);
 bsBeeEyesDimm[1].SetUi(dimm[1]);
-ui->verticalLayout_SideBeeEyes->addWidget(dimm[1]);
+page_1.AddToScrollArea(dimm[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(dimm[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Zoom"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 zoom[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(zoom[1]);
+page_1.AddToScrollArea(zoom[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(zoom[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Rotate"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 rotate[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(rotate[1]);
+page_1.AddToScrollArea(rotate[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(rotate[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 
 posInit.name = "RGB Device Shift"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 shift[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(shift[1]);
+page_1.AddToScrollArea(shift[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(shift[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "RGB Dimm Ring"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = false;
 rgbDimm[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(rgbDimm[1]);
+page_1.AddToScrollArea(rgbDimm[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(rgbDimm[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "RGB Dimm Inner"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = false; posInit.enableSpeed = false;
 rgbInnDimm[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(rgbInnDimm[1]);
+page_1.AddToScrollArea(rgbInnDimm[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(rgbInnDimm[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "White Ring Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 shiftWhite[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(shiftWhite[1]);
+page_1.AddToScrollArea(shiftWhite[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(shiftWhite[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 posInit.name = "Inner White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
 innerWhite[1] = tmpPos = new Position(this, posInit);
-ui->verticalLayout_SideBeeEyes->addWidget(innerWhite[1]);
+page_1.AddToScrollArea(innerWhite[1]);
+//ui->verticalLayout_SideBeeEyes->addWidget(innerWhite[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 
 
@@ -309,27 +331,30 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
     ///////////
 
     saveLoadHeads.name = "_Heads";
-    ui->verticalLayout_MovingHeads->addWidget(&saveLoadHeads);
 
     posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     posMovingHeads = tmpPos = new Position(this, posInit);
-    ui->verticalLayout_MovingHeads->addWidget(posMovingHeads);
+    page_2.AddToScrollArea(posMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(posMovingHeads);
     saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Pan"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     panMovingHeads = tmpPos = new Position(this, posInit);
-    ui->verticalLayout_MovingHeads->addWidget(panMovingHeads);
+    page_2.AddToScrollArea(panMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(panMovingHeads);
     saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Tilt"; posInit.overridePos = Qt::CheckState::Checked; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     tiltMovingHeads = tmpPos = new Position(this, posInit);
-    ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    page_2.AddToScrollArea(tiltMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
     saveLoadHeads.AddPositionUi(tmpPos);
 
     posInit.name = "Dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     dimmMovingHeads = tmpPos = new Position(this, posInit);
     movingHeadsDimm.SetUi(dimmMovingHeads);
-    ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
+    page_2.AddToScrollArea(dimmMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
     saveLoadHeads.AddPositionUi(tmpPos);
 
     MovingHead_RGBWA_UV_t RGBW_Dimm_MovingHead_Init;
@@ -440,6 +465,7 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
     QObject::connect(&cT, &ClientServer_Top::RequestValue, this, &Widget::Slot_GetMasterPosition);
 
     currentPage = ui->stackedWidget->currentIndex();
+    UpdatePageSelection();
 
     timer.setInterval(100);
     timer.start();
@@ -562,8 +588,7 @@ void Widget::Slot_PrevPage()
     {
         currentPage--;
     }
-
-    ui->stackedWidget->setCurrentIndex(currentPage);
+    UpdatePageSelection();
 }
 
 void Widget::Slot_NextPage()
@@ -573,6 +598,14 @@ void Widget::Slot_NextPage()
     {
         currentPage = 0;
     }
+    UpdatePageSelection();
+}
 
+void Widget::UpdatePageSelection()
+{
+    QString whichOfHowMany;
     ui->stackedWidget->setCurrentIndex(currentPage);
+    ui->label_PageName->setText(FixtureList.at(currentPage)->name);
+    whichOfHowMany = QString::number(currentPage+1) + " / " + QString::number(ui->stackedWidget->count());
+    ui->label_PageWhichOfHowMany->setText(whichOfHowMany);
 }

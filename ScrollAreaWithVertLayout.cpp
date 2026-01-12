@@ -6,6 +6,7 @@ ScrollAreaWithVertLayout::ScrollAreaWithVertLayout(QWidget *parent) :
     ui(new Ui::ScrollAreaWithVertLayout)
 {
     ui->setupUi(this);
+    name = "no name";
 }
 
 ScrollAreaWithVertLayout::~ScrollAreaWithVertLayout()
