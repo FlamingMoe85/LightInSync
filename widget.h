@@ -8,8 +8,6 @@
 
 #include "../Experiment/ClientServer_Top.h"
 
-#include "ScrollAreaWithVertLayout.h"
-
 
 
 #include "../../../share/EffectStructureBlocks/BundleSeriesManager.h"
@@ -28,6 +26,7 @@
 
 #include "../Experiment/ControlInputs/Position.h"
 #include "../Experiment/ControlInputs/SaveLoadScene.h"
+#include "../Experiment/ControlInputs/ScrollAreaWithVertLayout.h"
 
 #include "../../../share/Devices/DmxDevices/Device.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"

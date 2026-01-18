@@ -38,6 +38,7 @@ SOURCES += \
     ../Experiment/ClientServer_Top.cpp \
     ../Experiment/ControlInputs/Position.cpp \
     ../Experiment/ControlInputs/SaveLoadScene.cpp \
+    ../Experiment/ControlInputs/ScrollAreaWithVertLayout.cpp \
     ../Experiment/ControlInputs/Span.cpp \
     ../Experiment/UI/CustomScrollArea.cpp \
     ../Experiment/UI/EditorItem.cpp \
@@ -45,7 +46,6 @@ SOURCES += \
     ../Experiment/UI/HorSliderSelfCentering.cpp \
     ../Experiment/UI/ShadeWidget.cpp \
     ../Experiment/UI/hoverpoints.cpp \
-    ScrollAreaWithVertLayout.cpp \
     main.cpp \
     widget.cpp
 
@@ -111,6 +111,7 @@ HEADERS += \
     ../Experiment/ControlInputs/I_Ping.hpp \
     ../Experiment/ControlInputs/Position.h \
     ../Experiment/ControlInputs/SaveLoadScene.h \
+    ../Experiment/ControlInputs/ScrollAreaWithVertLayout.h \
     ../Experiment/ControlInputs/Span.h \
     ../Experiment/UI/CustomScrollArea.h \
     ../Experiment/UI/EditorItem.h \
@@ -118,19 +119,18 @@ HEADERS += \
     ../Experiment/UI/HorSliderSelfCentering.h \
     ../Experiment/UI/ShadeWidget.h \
     ../Experiment/UI/hoverpoints.h \
-    ScrollAreaWithVertLayout.h \
     widget.h
 
 FORMS += \
     ../Experiment/Audio/AudioPlayerFrontend.ui \
     ../Experiment/ControlInputs/SaveLoadScene.ui \
+    ../Experiment/ControlInputs/ScrollAreaWithVertLayout.ui \
     ../Experiment/ControlInputs/Span.ui \
     ../Experiment/UI/CustomScrollArea.ui \
     ../Experiment/UI/EditorItem.ui \
     ../Experiment/UI/EffectEditor.ui \
     ../Experiment/UI/HorSliderSelfCentering.ui \
     ../Experiment/ControlInputs/Position.ui \
-    ScrollAreaWithVertLayout.ui \
     widget.ui
 
 # Default rules for deployment.
