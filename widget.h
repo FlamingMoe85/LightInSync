@@ -32,11 +32,13 @@
 #include "../../../share/Devices/DmxDevices/Device.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
+#include "../../../share/Devices/DmxDevices/PinSpotRGBW_7Ch.hpp"
 
 #define AMT_BEE_EYES        4
 #define AMT_MOVING_HEADS    4
 #define AMT_CANS            12
-#define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8)
+#define AMT_PINSPOTS        1
+#define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8) + (AMT_PINSPOTS*7)
 
 #define AMT_OuterRgbDevs    6
 
@@ -88,6 +90,14 @@ private:
     ColorWheelMapper colorWheelMovingHeads[AMT_MOVING_HEADS];
     Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads;
 
+    PinSpotRGBW_7Ch *pinSpots[AMT_PINSPOTS];
+    BundleSeries    pinSpotDevices,
+                    pinSpotRed[AMT_PINSPOTS],
+                    pinSpotGreen[AMT_PINSPOTS],
+                    pinSpotBlue[AMT_PINSPOTS],
+                    pinSpotWhite[AMT_PINSPOTS];
+    Position *posPinSpotRed, *posPinSpotGreen, *posPinSpotBlue, *posPinSpotWhite;
+
     /*
     Device *cans[AMT_CANS];
     BundleSeries    canDevices[AMT_CANS],
@@ -108,7 +118,7 @@ private:
     SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
 
     int currentPage;
-    ScrollAreaWithVertLayout page_0, page_1, page_2;
+    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3;
     QList<ScrollAreaWithVertLayout*> FixtureList;
     void UpdatePageSelection();
 

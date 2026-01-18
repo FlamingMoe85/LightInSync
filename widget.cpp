@@ -80,14 +80,17 @@ PositionInit_t posInit;
 FixtureList.append(&page_0);
 FixtureList.append(&page_1);
 FixtureList.append(&page_2);
+FixtureList.append(&page_3);
 
 ui->stackedWidget->addWidget(&page_0);
 ui->stackedWidget->addWidget(&page_1);
 ui->stackedWidget->addWidget(&page_2);
+ui->stackedWidget->addWidget(&page_3);
 
 page_0.name = "BeeEyes Group 1";
 page_1.name = "BeeEyes Group 2";
 page_2.name = "Moving Heads";
+page_3.name = "Pin Spot";
 
 page_0.AddToScrollArea(&saveLoadBeeEyes);
 page_1.AddToScrollArea(&saveLoadBeeEyes_Side);
@@ -243,6 +246,24 @@ innerWhite[1] = tmpPos = new Position(this, posInit);
 page_1.AddToScrollArea(innerWhite[1]);
 //ui->verticalLayout_SideBeeEyes->addWidget(innerWhite[1]);
 saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
+
+posInit.name = "Red"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
+posPinSpotRed = tmpPos = new Position(this, posInit);
+page_3.AddToScrollArea(posPinSpotRed);
+
+posInit.name = "Green"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
+posPinSpotGreen = tmpPos = new Position(this, posInit);
+page_3.AddToScrollArea(posPinSpotGreen);
+
+posInit.name = "Blue"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
+posPinSpotBlue = tmpPos = new Position(this, posInit);
+page_3.AddToScrollArea(posPinSpotBlue);
+
+posInit.name = "White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
+posPinSpotWhite = tmpPos = new Position(this, posInit);
+page_3.AddToScrollArea(posPinSpotWhite);
+
+
 
 
 cT.RegisterCLient(&(bsBeeEyesDimm[0]));
@@ -401,6 +422,43 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         movingHeadsDimm.RegisterClient(movingHeads[device]->GetDimmMapper()); movingHeadsDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.5, 0.0);
     }
 
+    for(int device=0; device<AMT_PINSPOTS; device++)
+    {
+        pinSpots[device] = new PinSpotRGBW_7Ch(universum);
+        pinSpots[device]->Init(342);
+
+        masterBs.RegisterClient(&(pinSpotDevices));
+        pinSpotDevices.SetType(NEW_BS);
+        pinSpotDevices.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+        pinSpotDevices.RegisterClient(&(pinSpotRed[device]));
+        pinSpotDevices.RegisterClient(&(pinSpotGreen[device]));
+        pinSpotDevices.RegisterClient(&(pinSpotBlue[device]));
+        pinSpotDevices.RegisterClient(&(pinSpotWhite[device]));
+
+        /*
+        pinSpots[device]->GetRedMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpots[device]->GetGreenMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpots[device]->GetBlueMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpots[device]->GetWhiteMapper()->functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+*/
+
+
+        pinSpotRed[device].functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpotGreen[device].functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpotBlue[device].functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+        pinSpotWhite[device].functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+
+        pinSpotRed[device].RegisterClient(pinSpots[device]->GetRedMapper());
+        pinSpotGreen[device].RegisterClient(pinSpots[device]->GetGreenMapper());
+        pinSpotBlue[device].RegisterClient(pinSpots[device]->GetBlueMapper());
+        pinSpotWhite[device].RegisterClient(pinSpots[device]->GetWhiteMapper());
+
+        pinSpotRed[device].SetUi(posPinSpotRed);
+        pinSpotGreen[device].SetUi(posPinSpotGreen);
+        pinSpotBlue[device].SetUi(posPinSpotBlue);
+        pinSpotWhite[device].SetUi(posPinSpotWhite);
+    }
 /*
     posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     posCans = new Position(this, posInit);
