@@ -36,8 +36,10 @@ SOURCES += \
     ../Experiment/Audio/AudioPlayer.cpp \
     ../Experiment/Audio/AudioPlayerFrontend.cpp \
     ../Experiment/ClientServer_Top.cpp \
+    ../Experiment/ControlInputs/NameButton.cpp \
     ../Experiment/ControlInputs/Position.cpp \
     ../Experiment/ControlInputs/SaveLoadScene.cpp \
+    ../Experiment/ControlInputs/SceneLoadButtons.cpp \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.cpp \
     ../Experiment/ControlInputs/Span.cpp \
     ../Experiment/UI/CustomScrollArea.cpp \
@@ -109,8 +111,10 @@ HEADERS += \
     ../Experiment/ClientServer_Top.h \
     ../Experiment/ControlInputs/ChangeSliderAtRate.h \
     ../Experiment/ControlInputs/I_Ping.hpp \
+    ../Experiment/ControlInputs/NameButton.h \
     ../Experiment/ControlInputs/Position.h \
     ../Experiment/ControlInputs/SaveLoadScene.h \
+    ../Experiment/ControlInputs/SceneLoadButtons.h \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.h \
     ../Experiment/ControlInputs/Span.h \
     ../Experiment/UI/CustomScrollArea.h \
@@ -123,6 +127,7 @@ HEADERS += \
 
 FORMS += \
     ../Experiment/Audio/AudioPlayerFrontend.ui \
+    ../Experiment/ControlInputs/NameButton.ui \
     ../Experiment/ControlInputs/SaveLoadScene.ui \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.ui \
     ../Experiment/ControlInputs/Span.ui \

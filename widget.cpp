@@ -63,7 +63,8 @@ Widget::Widget(QWidget *parent)
         ui(new Ui::Widget),
         saveLoadBeeEyes(this, "_BeeEyes"),
         saveLoadBeeEyes_Side(this,"_SideBeeEyes"),
-        saveLoadHeads(this, "_Heads")
+        saveLoadHeads(this, "_Heads"),
+        saveLoadPinSpot(this, "_PinSpot")
 {
     ui->setupUi(this);
 
@@ -88,13 +89,22 @@ ui->stackedWidget->addWidget(&page_2);
 ui->stackedWidget->addWidget(&page_3);
 
 page_0.name = "BeeEyes Group 1";
+loadButtons_1 = new SceneLoadButtons("_BeeEyes");
+ui->verticalLayout_SceneButtons_Page_1->layout()->addWidget(loadButtons_1);
+
 page_1.name = "BeeEyes Group 2";
+loadButtons_2 = new SceneLoadButtons("_SideBeeEyes");
+ui->verticalLayout_SceneButtons_Page_2->layout()->addWidget(loadButtons_2);
 page_2.name = "Moving Heads";
 page_3.name = "Pin Spot";
+loadButtons_3 = new SceneLoadButtons("_PinSpot");
+ui->verticalLayout_SceneButtons_Page_4->layout()->addWidget(loadButtons_3);
+
 
 page_0.AddToScrollArea(&saveLoadBeeEyes);
 page_1.AddToScrollArea(&saveLoadBeeEyes_Side);
 page_2.AddToScrollArea(&saveLoadHeads);
+page_3.AddToScrollArea(&saveLoadPinSpot);
 //ui->verticalLayout->addWidget(&saveLoadBeeEyes);
 //ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
 
@@ -250,18 +260,22 @@ saveLoadBeeEyes_Side.AddPositionUi(tmpPos);
 posInit.name = "Red"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
 posPinSpotRed = tmpPos = new Position(this, posInit);
 page_3.AddToScrollArea(posPinSpotRed);
+saveLoadPinSpot.AddPositionUi(tmpPos);
 
 posInit.name = "Green"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
 posPinSpotGreen = tmpPos = new Position(this, posInit);
 page_3.AddToScrollArea(posPinSpotGreen);
+saveLoadPinSpot.AddPositionUi(tmpPos);
 
 posInit.name = "Blue"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
 posPinSpotBlue = tmpPos = new Position(this, posInit);
 page_3.AddToScrollArea(posPinSpotBlue);
+saveLoadPinSpot.AddPositionUi(tmpPos);
 
 posInit.name = "White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = false; posInit.enableSpan = true; posInit.enableSpeed = false;
 posPinSpotWhite = tmpPos = new Position(this, posInit);
 page_3.AddToScrollArea(posPinSpotWhite);
+saveLoadPinSpot.AddPositionUi(tmpPos);
 
 
 
@@ -519,6 +533,12 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
 
     QObject::connect(ui->pushButton_PrvPage, &QPushButton::clicked, this, &Widget::Slot_PrevPage);
     QObject::connect(ui->pushButton_NextPage, &QPushButton::clicked, this, &Widget::Slot_NextPage);
+
+    QObject::connect(loadButtons_1, &SceneLoadButtons::Sig_NameClicked, &saveLoadBeeEyes, &SaveLoadScene::Slot_LoadByName);
+    QObject::connect(loadButtons_2, &SceneLoadButtons::Sig_NameClicked, &saveLoadBeeEyes_Side, &SaveLoadScene::Slot_LoadByName);
+    QObject::connect(loadButtons_3, &SceneLoadButtons::Sig_NameClicked, &saveLoadPinSpot, &SaveLoadScene::Slot_LoadByName);
+    //connect(loadButtons_1, SIGNAL(Sig_NameClicked(const QString&)), saveLoadBeeEyes, SLOT(Slot_LoadByName(const QString&)));
+
     QObject::connect(&timer, &QTimer::timeout, this, &Widget::Slot_TimerExpired);
     QObject::connect(&cT, &ClientServer_Top::RequestValue, this, &Widget::Slot_GetMasterPosition);
 

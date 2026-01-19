@@ -27,6 +27,7 @@
 #include "../Experiment/ControlInputs/Position.h"
 #include "../Experiment/ControlInputs/SaveLoadScene.h"
 #include "../Experiment/ControlInputs/ScrollAreaWithVertLayout.h"
+#include "../Experiment/ControlInputs/SceneLoadButtons.h"
 
 #include "../../../share/Devices/DmxDevices/Device.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
@@ -114,12 +115,14 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads;
+    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads, saveLoadPinSpot;
 
     int currentPage;
     ScrollAreaWithVertLayout page_0, page_1, page_2, page_3;
     QList<ScrollAreaWithVertLayout*> FixtureList;
     void UpdatePageSelection();
+
+    SceneLoadButtons *loadButtons_1, *loadButtons_2, *loadButtons_3;
 
 
 private slots:
