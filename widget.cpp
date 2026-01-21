@@ -392,6 +392,24 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
     //ui->verticalLayout_MovingHeads->addWidget(dimmMovingHeads);
     saveLoadHeads.AddPositionUi(tmpPos);
 
+    posInit.name = "White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    whiteMovingHeads = tmpPos = new Position(this, posInit);
+    page_2.AddToScrollArea(whiteMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
+
+    posInit.name = "RGB"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    rgbMovingHeads = tmpPos = new Position(this, posInit);
+    page_2.AddToScrollArea(rgbMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
+
+    posInit.name = "RGB dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    rgbDimmMovingHeads = tmpPos = new Position(this, posInit);
+    page_2.AddToScrollArea(rgbDimmMovingHeads);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadHeads.AddPositionUi(tmpPos);
+
     MovingHead_RGBWA_UV_t RGBW_Dimm_MovingHead_Init;
 
         RGBW_Dimm_MovingHead_Init.red = 3;
@@ -414,8 +432,10 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         movingHeadDevices[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
 
         movingHeadDevices[device].RegisterClient(&(movingHeadsRGBdevs[device]));
+        movingHeadDevices[device].RegisterClient(&(movingHeadsWhite[device]));
         movingHeadDevices[device].RegisterClient(&(movingHeadsPan[device]));
         movingHeadDevices[device].RegisterClient(&(movingHeadsTilt[device]));
+        movingHeadDevices[device].RegisterClient(&(movingHeadsRGBdimm[device]));
 
         movingHeads[device] = new MovingHead_RGBWA_UV(universum);
         RGBW_Dimm_MovingHead_Init.adr = 1+ (AMT_CANS*8) +(device*10);
@@ -428,10 +448,19 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         movingHeadsTilt[device].RegisterClient(movingHeads[device]->GetTiltMapper()); movingHeadsTilt[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         movingHeadsTilt[device].SetUi(tiltMovingHeads);
 
+        movingHeadsRGBdimm[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
         colorWheelMovingHeads[device].SetRgbDevice((I_RGB*)movingHeads[device]);
         colorWheelMovingHeads[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
         movingHeadsRGBdevs[device].RegisterClient(&(colorWheelMovingHeads[device]));
         movingHeadsRGBdevs[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        movingHeadsRGBdevs[device].SetUi(rgbMovingHeads);
+        movingHeadsRGBdimm[device].RegisterClient(colorWheelMovingHeads[device].GetDimm());
+        movingHeadsRGBdimm[device].SetUi(rgbDimmMovingHeads);
+
+        movingHeadsWhite[device].RegisterClient(movingHeads[device]->GetWhiteMapper());
+        movingHeadsWhite[device].GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+        movingHeadsWhite[device].SetUi(whiteMovingHeads);
 
         movingHeadsDimm.RegisterClient(movingHeads[device]->GetDimmMapper()); movingHeadsDimm.GetFuncCont()->AddFunctionSectionByParams(1, 0, 0.5, 0.0);
     }

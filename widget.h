@@ -83,12 +83,13 @@ private:
     MovingHead_RGBWA_UV *movingHeads[AMT_MOVING_HEADS];
     BundleSeries    movingHeadDevices[AMT_MOVING_HEADS],
                     movingHeadsRGBdevs[AMT_MOVING_HEADS],
+                    movingHeadsRGBdimm[AMT_MOVING_HEADS],
                     movingHeadsWhite[AMT_MOVING_HEADS],
                     movingHeadsDimm,
                     movingHeadsPan[AMT_MOVING_HEADS],
                     movingHeadsTilt[AMT_MOVING_HEADS];
     ColorWheelMapper colorWheelMovingHeads[AMT_MOVING_HEADS];
-    Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads;
+    Position *posMovingHeads, *panMovingHeads, *tiltMovingHeads, *dimmMovingHeads, *whiteMovingHeads, *rgbMovingHeads, *rgbDimmMovingHeads;
 
     PinSpotRGBW_7Ch *pinSpots[AMT_PINSPOTS];
     BundleSeries    pinSpotDevices,
