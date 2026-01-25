@@ -33,11 +33,13 @@
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp"
 #include "../../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp"
 #include "../../../share/Devices/DmxDevices/PinSpotRGBW_7Ch.hpp"
+#include "../../../share/Devices/DmxDevices/Par_RGBWAUV_10Ch.hpp"
 
 #define AMT_BEE_EYES        4
 #define AMT_MOVING_HEADS    4
 #define AMT_CANS            12
 #define AMT_PINSPOTS        1
+#define AMT_PARS            1
 #define UNIV_LENGTH 1+ (AMT_BEE_EYES*51) + (AMT_MOVING_HEADS * 10) + (AMT_CANS * 8) + (AMT_PINSPOTS*7)
 
 #define AMT_OuterRgbDevs    6
@@ -99,6 +101,15 @@ private:
                     pinSpotWhite[AMT_PINSPOTS];
     Position *posPinSpotRed, *posPinSpotGreen, *posPinSpotBlue, *posPinSpotWhite;
 
+    Par_RGBWAUV_10Ch *pars[AMT_PARS];
+    BundleSeries    parSpotDevices,
+                    parDimm,
+                    parSpotRed,
+                    parSpotGreen,
+                    parSpotBlue,
+                    parSpotWhite;
+    Position *posParSpotRed, *posParSpotGreen, *posParSpotBlue, *posParSpotWhite, *posParDimm;
+
     /*
     Device *cans[AMT_CANS];
     BundleSeries    canDevices[AMT_CANS],
@@ -116,14 +127,14 @@ private:
     uint8_t buf[UNIV_LENGTH];
     int itteration;
 
-    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads, saveLoadPinSpot;
+    SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads, saveLoadPinSpot, saveLoadPars;
 
     int currentPage;
-    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3;
+    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3, page_4;
     QList<ScrollAreaWithVertLayout*> FixtureList;
     void UpdatePageSelection();
 
-    SceneLoadButtons *loadButtons_1, *loadButtons_2, *loadButtons_3;
+    SceneLoadButtons *loadButtons_1, *loadButtons_2, *loadButtons_3, *loadButtons_4;
 
 
 private slots:

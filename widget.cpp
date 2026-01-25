@@ -64,7 +64,8 @@ Widget::Widget(QWidget *parent)
         saveLoadBeeEyes(this, "_BeeEyes"),
         saveLoadBeeEyes_Side(this,"_SideBeeEyes"),
         saveLoadHeads(this, "_Heads"),
-        saveLoadPinSpot(this, "_PinSpot")
+        saveLoadPinSpot(this, "_PinSpot"),
+        saveLoadPars(this, "_Pars")
 {
     ui->setupUi(this);
 
@@ -80,13 +81,15 @@ PositionInit_t posInit;
 
 FixtureList.append(&page_0);
 FixtureList.append(&page_1);
-FixtureList.append(&page_2);
+//FixtureList.append(&page_2);
 FixtureList.append(&page_3);
+FixtureList.append(&page_4);
 
 ui->stackedWidget->addWidget(&page_0);
 ui->stackedWidget->addWidget(&page_1);
-ui->stackedWidget->addWidget(&page_2);
+//ui->stackedWidget->addWidget(&page_2);
 ui->stackedWidget->addWidget(&page_3);
+ui->stackedWidget->addWidget(&page_4);
 
 page_0.name = "BeeEyes Group 1";
 loadButtons_1 = new SceneLoadButtons("_BeeEyes");
@@ -95,16 +98,23 @@ ui->verticalLayout_SceneButtons_Page_1->layout()->addWidget(loadButtons_1);
 page_1.name = "BeeEyes Group 2";
 loadButtons_2 = new SceneLoadButtons("_SideBeeEyes");
 ui->verticalLayout_SceneButtons_Page_2->layout()->addWidget(loadButtons_2);
+
 page_2.name = "Moving Heads";
+
 page_3.name = "Pin Spot";
 loadButtons_3 = new SceneLoadButtons("_PinSpot");
-ui->verticalLayout_SceneButtons_Page_4->layout()->addWidget(loadButtons_3);
+ui->verticalLayout_SceneButtons_Page_3->layout()->addWidget(loadButtons_3);
+
+page_4.name = "Pars";
+loadButtons_4 = new SceneLoadButtons("_Pars");
+ui->verticalLayout_SceneButtons_Page_4->layout()->addWidget(loadButtons_4);
 
 
 page_0.AddToScrollArea(&saveLoadBeeEyes);
 page_1.AddToScrollArea(&saveLoadBeeEyes_Side);
 page_2.AddToScrollArea(&saveLoadHeads);
 page_3.AddToScrollArea(&saveLoadPinSpot);
+page_4.AddToScrollArea(&saveLoadPars);
 //ui->verticalLayout->addWidget(&saveLoadBeeEyes);
 //ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
 
@@ -502,6 +512,78 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
         pinSpotBlue[device].SetUi(posPinSpotBlue);
         pinSpotWhite[device].SetUi(posPinSpotWhite);
     }
+
+
+    posInit.name = "Par dimm"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posParDimm = tmpPos = new Position(this, posInit);
+    page_4.AddToScrollArea(posParDimm);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadPars.AddPositionUi(tmpPos);
+
+    posInit.name = "Par Red"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posParSpotRed = tmpPos = new Position(this, posInit);
+    page_4.AddToScrollArea(posParSpotRed);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadPars.AddPositionUi(tmpPos);
+
+    posInit.name = "Par Green"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posParSpotGreen = tmpPos = new Position(this, posInit);
+    page_4.AddToScrollArea(posParSpotGreen);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadPars.AddPositionUi(tmpPos);
+
+    posInit.name = "Par Blue"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posParSpotBlue = tmpPos = new Position(this, posInit);
+    page_4.AddToScrollArea(posParSpotBlue);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadPars.AddPositionUi(tmpPos);
+
+
+    posInit.name = "Par White"; posInit.overridePos = Qt::CheckState::Checked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
+    posParSpotWhite = tmpPos = new Position(this, posInit);
+    page_4.AddToScrollArea(posParSpotWhite);
+    //ui->verticalLayout_MovingHeads->addWidget(tiltMovingHeads);
+    saveLoadPars.AddPositionUi(tmpPos);
+
+    masterBs.RegisterClient(&(parSpotDevices));
+    parSpotDevices.SetType(NEW_BS);
+    parSpotDevices.GetFuncCont()->AddFunctionSectionByParams(1, 0, 1, 0);
+
+    parSpotDevices.RegisterClient(&(parSpotRed));
+    parSpotDevices.RegisterClient(&(parSpotGreen));
+    parSpotDevices.RegisterClient(&(parSpotBlue));
+    parSpotDevices.RegisterClient(&(parSpotWhite));
+    parSpotDevices.RegisterClient(&(parDimm));
+
+    parSpotRed.functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+    parSpotGreen.functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+    parSpotBlue.functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+    parSpotWhite.functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+    parDimm.functionContainer.AddFunctionSectionByParams(1, 0, 1, 0);
+
+    parSpotRed.SetUi(posParSpotRed);
+    parSpotGreen.SetUi(posParSpotGreen);
+    parSpotBlue.SetUi(posParSpotBlue);
+    parSpotWhite.SetUi(posParSpotWhite);
+    parDimm.SetUi(posParDimm);
+
+    for(int device=0; device<AMT_PARS; device++)
+    {
+        pars[device] = new Par_RGBWAUV_10Ch(universum);
+        pars[device]->Init(1);
+
+
+
+
+
+        parSpotRed.RegisterClient(pars[device]->GetMapperRedDimm());
+        parSpotGreen.RegisterClient(pars[device]->GetMapperGreenDimm());
+        parSpotBlue.RegisterClient(pars[device]->GetMapperBlueDimm());
+        parSpotWhite.RegisterClient(pars[device]->GetMapperWhiteDimm());
+        parDimm.RegisterClient(pars[device]->GetMapperDimmer());
+
+    }
+
 /*
     posInit.name = "Pos"; posInit.overridePos = Qt::CheckState::Unchecked; posInit.enableShift = true; posInit.enableSpan = true; posInit.enableSpeed = true;
     posCans = new Position(this, posInit);
@@ -566,6 +648,7 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
     QObject::connect(loadButtons_1, &SceneLoadButtons::Sig_NameClicked, &saveLoadBeeEyes, &SaveLoadScene::Slot_LoadByName);
     QObject::connect(loadButtons_2, &SceneLoadButtons::Sig_NameClicked, &saveLoadBeeEyes_Side, &SaveLoadScene::Slot_LoadByName);
     QObject::connect(loadButtons_3, &SceneLoadButtons::Sig_NameClicked, &saveLoadPinSpot, &SaveLoadScene::Slot_LoadByName);
+    QObject::connect(loadButtons_4, &SceneLoadButtons::Sig_NameClicked, &saveLoadPars, &SaveLoadScene::Slot_LoadByName);
     //connect(loadButtons_1, SIGNAL(Sig_NameClicked(const QString&)), saveLoadBeeEyes, SLOT(Slot_LoadByName(const QString&)));
 
     QObject::connect(&timer, &QTimer::timeout, this, &Widget::Slot_TimerExpired);

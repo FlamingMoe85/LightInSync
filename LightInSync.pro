@@ -66,6 +66,7 @@ HEADERS += \
     ../../share/Devices/DmxDevices/Device_RGBW.hpp \
     ../../share/Devices/DmxDevices/MovingHead_RGBWA_UV.hpp \
     ../../share/Devices/DmxDevices/MovingHead_RGBW_7x40_BeeEye_51Ch.hpp \
+    ../../share/Devices/DmxDevices/Par_RGBWAUV_10Ch.hpp \
     ../../share/Devices/DmxDevices/PinSpotRGBW_7Ch.hpp \
     ../../share/Devices/DmxDevices/RGBWA_UV_MiniMovingHead.hpp \
     ../../share/Devices/DmxDevices/RGBWA_UV_Stationary.hpp \
