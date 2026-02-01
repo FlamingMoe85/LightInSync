@@ -42,6 +42,9 @@ SOURCES += \
     ../Experiment/ControlInputs/SceneLoadButtons.cpp \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.cpp \
     ../Experiment/ControlInputs/Span.cpp \
+    ../Experiment/SequenceUis/SequenceEditor.cpp \
+    ../Experiment/SequenceUis/SequenceItem.cpp \
+    ../Experiment/SequenceUis/SequencePlayer.cpp \
     ../Experiment/UI/CustomScrollArea.cpp \
     ../Experiment/UI/EditorItem.cpp \
     ../Experiment/UI/EffectEditor.cpp \
@@ -118,12 +121,16 @@ HEADERS += \
     ../Experiment/ControlInputs/SceneLoadButtons.h \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.h \
     ../Experiment/ControlInputs/Span.h \
+    ../Experiment/SequenceUis/SequenceEditor.h \
+    ../Experiment/SequenceUis/SequenceItem.h \
+    ../Experiment/SequenceUis/SequencePlayer.h \
     ../Experiment/UI/CustomScrollArea.h \
     ../Experiment/UI/EditorItem.h \
     ../Experiment/UI/EffectEditor.h \
     ../Experiment/UI/HorSliderSelfCentering.h \
     ../Experiment/UI/ShadeWidget.h \
     ../Experiment/UI/hoverpoints.h \
+    ../Experiment/Utilities.hpp \
     widget.h
 
 FORMS += \
@@ -132,6 +139,8 @@ FORMS += \
     ../Experiment/ControlInputs/SaveLoadScene.ui \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.ui \
     ../Experiment/ControlInputs/Span.ui \
+    ../Experiment/SequenceUis/SequenceEditor.ui \
+    ../Experiment/SequenceUis/SequenceItem.ui \
     ../Experiment/UI/CustomScrollArea.ui \
     ../Experiment/UI/EditorItem.ui \
     ../Experiment/UI/EffectEditor.ui \

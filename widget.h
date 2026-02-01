@@ -20,6 +20,7 @@
 #include "../Experiment/Ui/ShadeWidget.h"
 #include "../Experiment/Ui/CustomScrollArea.h"
 #include "../Experiment/Ui/EffectEditor.h"
+#include "../Experiment/SequenceUis/SequenceEditor.h"
 
 #include "../Experiment/Audio/AudioPlayer.h"
 #include "../Experiment/Audio/AudioPlayerFrontend.h"
@@ -128,14 +129,20 @@ private:
     int itteration;
 
     SaveLoadScene saveLoadBeeEyes, saveLoadBeeEyes_Side, saveLoadHeads, saveLoadPinSpot, saveLoadPars;
+    QList<SaveLoadScene*> saveLoadSceneList;
 
     int currentPage;
-    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3, page_4;
+    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3, page_4, page_5;
+    SequenceEditor sequenceEditor;
     QList<ScrollAreaWithVertLayout*> FixtureList;
     void UpdatePageSelection();
 
     SceneLoadButtons *loadButtons_1, *loadButtons_2, *loadButtons_3, *loadButtons_4;
 
+     void ConnectFixturePagesToNameButtons();
+     void DisonnectFixturePagesFromNameButtons();
+     void ConnectFixturePagesToSequenceEditor();
+     void DisonnectFixturePagesFromSequenceEditor();
 
 private slots:
     void Slot_SendMsg();
