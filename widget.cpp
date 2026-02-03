@@ -91,6 +91,7 @@ FixtureList.append(&page_1);
 FixtureList.append(&page_3);
 FixtureList.append(&page_4);
 FixtureList.append(&page_5);
+FixtureList.append(&page_6);
 
 ui->stackedWidget->addWidget(&page_0);
 ui->stackedWidget->addWidget(&page_1);
@@ -98,6 +99,7 @@ ui->stackedWidget->addWidget(&page_1);
 ui->stackedWidget->addWidget(&page_3);
 ui->stackedWidget->addWidget(&page_4);
 ui->stackedWidget->addWidget(&page_5);
+ui->stackedWidget->addWidget(&page_6);
 
 page_0.name = "BeeEyes Group 1";
 loadButtons_1 = new SceneLoadButtons("_BeeEyes");
@@ -118,6 +120,7 @@ loadButtons_4 = new SceneLoadButtons("_Pars");
 ui->verticalLayout_SceneButtons_Page_4->layout()->addWidget(loadButtons_4);
 
 page_5.name = "Sequence Editor";
+page_6.name = "Playlist Editor";
 
 
 page_0.AddToScrollArea(&saveLoadBeeEyes);
@@ -126,6 +129,7 @@ page_2.AddToScrollArea(&saveLoadHeads);
 page_3.AddToScrollArea(&saveLoadPinSpot);
 page_4.AddToScrollArea(&saveLoadPars);
 page_5.AddToScrollArea(&sequenceEditor);
+page_6.AddToScrollArea(&playlistManager);
 //ui->verticalLayout->addWidget(&saveLoadBeeEyes);
 //ui->verticalLayout_SideBeeEyes->addWidget(&saveLoadBeeEyes_Side);
 
@@ -655,6 +659,8 @@ cT.RegisterCLient(&(bsBeeEyesDimm[1]));
 
     QObject::connect(ui->pushButton_PrvPage, &QPushButton::clicked, this, &Widget::Slot_PrevPage);
     QObject::connect(ui->pushButton_NextPage, &QPushButton::clicked, this, &Widget::Slot_NextPage);
+    QObject::connect(&playlistManager, &PlaylistManager::Signal_PlaySequenceOfSong, &sequenceEditor, &SequenceEditor::Slot_SongFromPlayList);
+    QObject::connect(&sequenceEditor, &SequenceEditor::Signal_AudioPlayerFinished, &playlistManager, &PlaylistManager::Slot_SongFinished);
     ConnectFixturePagesToNameButtons();
 
     //connect(loadButtons_1, SIGNAL(Sig_NameClicked(const QString&)), saveLoadBeeEyes, SLOT(Slot_LoadByName(const QString&)));
@@ -812,31 +818,46 @@ void Widget::Slot_PrevPage()
     {
         currentPage = ui->stackedWidget->count()-1;
         DisonnectFixturePagesFromNameButtons();
+
+    }
+    else if(currentPage == ui->stackedWidget->count()-1)
+    {
+        currentPage--;
         ConnectFixturePagesToSequenceEditor();
+    }
+    else if(currentPage == ui->stackedWidget->count()-2)
+    {
+        currentPage--;
     }
     else
     {
         currentPage--;
-        DisonnectFixturePagesFromSequenceEditor();
-        ConnectFixturePagesToNameButtons();
     }
     UpdatePageSelection();
 }
 
 void Widget::Slot_NextPage()
 {
-    currentPage++;
+
     if(currentPage == ui->stackedWidget->count()-1)
+    {
+        ConnectFixturePagesToNameButtons();
+        currentPage = 0;
+    }
+    else if(currentPage == ui->stackedWidget->count()-2)
+    {
+        DisonnectFixturePagesFromSequenceEditor();
+        currentPage++;
+    }
+    else if(currentPage == ui->stackedWidget->count()-3)
     {
         DisonnectFixturePagesFromNameButtons();
         ConnectFixturePagesToSequenceEditor();
+        currentPage++;
     }
-    if(currentPage == ui->stackedWidget->count())
+    else
     {
-
-        DisonnectFixturePagesFromSequenceEditor();
-        ConnectFixturePagesToNameButtons();
-        currentPage = 0;
+        currentPage++;
     }
     UpdatePageSelection();
 }

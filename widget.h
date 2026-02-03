@@ -21,6 +21,7 @@
 #include "../Experiment/Ui/CustomScrollArea.h"
 #include "../Experiment/Ui/EffectEditor.h"
 #include "../Experiment/SequenceUis/SequenceEditor.h"
+#include "../Experiment/PlaylistManagement/PlaylistManager.h"
 
 #include "../Experiment/Audio/AudioPlayer.h"
 #include "../Experiment/Audio/AudioPlayerFrontend.h"
@@ -132,7 +133,7 @@ private:
     QList<SaveLoadScene*> saveLoadSceneList;
 
     int currentPage;
-    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3, page_4, page_5;
+    ScrollAreaWithVertLayout page_0, page_1, page_2, page_3, page_4, page_5, page_6;
     SequenceEditor sequenceEditor;
     QList<ScrollAreaWithVertLayout*> FixtureList;
     void UpdatePageSelection();
@@ -143,6 +144,8 @@ private:
      void DisonnectFixturePagesFromNameButtons();
      void ConnectFixturePagesToSequenceEditor();
      void DisonnectFixturePagesFromSequenceEditor();
+
+     PlaylistManager playlistManager;
 
 private slots:
     void Slot_SendMsg();

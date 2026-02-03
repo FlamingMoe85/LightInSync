@@ -42,6 +42,8 @@ SOURCES += \
     ../Experiment/ControlInputs/SceneLoadButtons.cpp \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.cpp \
     ../Experiment/ControlInputs/Span.cpp \
+    ../Experiment/PlaylistManagement/FileBrowser/window.cpp \
+    ../Experiment/PlaylistManagement/PlaylistManager.cpp \
     ../Experiment/SequenceUis/SequenceEditor.cpp \
     ../Experiment/SequenceUis/SequenceItem.cpp \
     ../Experiment/SequenceUis/SequencePlayer.cpp \
@@ -121,6 +123,8 @@ HEADERS += \
     ../Experiment/ControlInputs/SceneLoadButtons.h \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.h \
     ../Experiment/ControlInputs/Span.h \
+    ../Experiment/PlaylistManagement/FileBrowser/window.h \
+    ../Experiment/PlaylistManagement/PlaylistManager.h \
     ../Experiment/SequenceUis/SequenceEditor.h \
     ../Experiment/SequenceUis/SequenceItem.h \
     ../Experiment/SequenceUis/SequencePlayer.h \
@@ -139,6 +143,7 @@ FORMS += \
     ../Experiment/ControlInputs/SaveLoadScene.ui \
     ../Experiment/ControlInputs/ScrollAreaWithVertLayout.ui \
     ../Experiment/ControlInputs/Span.ui \
+    ../Experiment/PlaylistManagement/PlaylistManager.ui \
     ../Experiment/SequenceUis/SequenceEditor.ui \
     ../Experiment/SequenceUis/SequenceItem.ui \
     ../Experiment/UI/CustomScrollArea.ui \
