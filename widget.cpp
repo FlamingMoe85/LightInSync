@@ -77,6 +77,7 @@ Widget::Widget(QWidget *parent)
         buf[i] = 0;
     }
 
+
 PositionInit_t posInit;
 
 saveLoadSceneList.append(&saveLoadBeeEyes);
@@ -101,23 +102,28 @@ ui->stackedWidget->addWidget(&page_4);
 ui->stackedWidget->addWidget(&page_5);
 ui->stackedWidget->addWidget(&page_6);
 
+
 page_0.name = "BeeEyes Group 1";
 loadButtons_1 = new SceneLoadButtons("_BeeEyes");
 ui->verticalLayout_SceneButtons_Page_1->layout()->addWidget(loadButtons_1);
+QObject::connect(&saveLoadBeeEyes, &SaveLoadScene::Signal_Save, loadButtons_1, &SceneLoadButtons::Slot_UpdateAvailableSceneButtons);
 
 page_1.name = "BeeEyes Group 2";
 loadButtons_2 = new SceneLoadButtons("_SideBeeEyes");
 ui->verticalLayout_SceneButtons_Page_2->layout()->addWidget(loadButtons_2);
+QObject::connect(&saveLoadBeeEyes_Side, &SaveLoadScene::Signal_Save, loadButtons_2, &SceneLoadButtons::Slot_UpdateAvailableSceneButtons);
 
 page_2.name = "Moving Heads";
 
 page_3.name = "Pin Spot";
 loadButtons_3 = new SceneLoadButtons("_PinSpot");
 ui->verticalLayout_SceneButtons_Page_3->layout()->addWidget(loadButtons_3);
+QObject::connect(&saveLoadPinSpot, &SaveLoadScene::Signal_Save, loadButtons_3, &SceneLoadButtons::Slot_UpdateAvailableSceneButtons);
 
 page_4.name = "Pars";
 loadButtons_4 = new SceneLoadButtons("_Pars");
 ui->verticalLayout_SceneButtons_Page_4->layout()->addWidget(loadButtons_4);
+QObject::connect(&saveLoadPars, &SaveLoadScene::Signal_Save, loadButtons_4, &SceneLoadButtons::Slot_UpdateAvailableSceneButtons);
 
 page_5.name = "Sequence Editor";
 page_6.name = "Playlist Editor";

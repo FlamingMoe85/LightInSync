@@ -482,7 +482,7 @@
                           <number>1</number>
                          </property>
                          <property name="value">
-                          <number>52</number>
+                          <number>49</number>
                          </property>
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -501,7 +501,7 @@
                           <number>1</number>
                          </property>
                          <property name="value">
-                          <number>55</number>
+                          <number>50</number>
                          </property>
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -520,7 +520,7 @@
                           <number>1</number>
                          </property>
                          <property name="value">
-                          <number>43</number>
+                          <number>28</number>
                          </property>
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
@@ -539,7 +539,7 @@
                           <number>1</number>
                          </property>
                          <property name="value">
-                          <number>36</number>
+                          <number>33</number>
                          </property>
                          <property name="orientation">
                           <enum>Qt::Horizontal</enum>
